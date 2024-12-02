@@ -1,10 +1,8 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
 import React from 'react'
 import PublicRouter from '@renderer/routers/PublicRouter'
 
 function App(): JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
   return (
     <React.Fragment>
