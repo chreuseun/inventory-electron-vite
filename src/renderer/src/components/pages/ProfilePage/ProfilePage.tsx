@@ -1,8 +1,11 @@
 import { IPageNames } from '@renderer/interfaces/pages.interface'
 import { navigateToGoBack, navigateToPage } from '@renderer/utils/reactRouter'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 const ProfilePage: React.FC = () => {
+  const s = useSelector((state) => state)
+
   const navigate = useNavigate()
 
   return (
@@ -19,6 +22,7 @@ const ProfilePage: React.FC = () => {
         </button>
       </div>
       <h1>ProfilePage</h1>
+      <pre>{JSON.stringify({ s }, null, 4)}</pre>
 
       <>
         <div>
