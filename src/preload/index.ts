@@ -4,7 +4,7 @@ import {
   IEunDevIPC,
   IMyChannelEventNames,
   ICUSTOM_IPC_NAMES
-} from '../interfaces/mychannel.ipc.interface'
+} from '@src/interfaces/mychannel.ipc.interface'
 
 // Custom APIs for renderer
 const api = {}

@@ -1,20 +1,22 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
-import { IMyChannelEventNames } from '../interfaces/mychannel.ipc.interface'
+import icon from '@resources/icon.png?asset'
+import { IMyChannelEventNames } from '@src/interfaces/mychannel.ipc.interface'
 
 import { version as packageVersion } from '../../package.json'
-import initializeDB from '../database/initializeDB'
+import initializeDB from '@src/database/initializeDB'
 
 function createWindow(): void {
   // Create the browser window.
+  console.log('---__dirnamess: ', path.join(__dirname, '../../resources/icon.png'))
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: icon, // path.join(__dirname, '../../resources/icon.png'),
+    // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
