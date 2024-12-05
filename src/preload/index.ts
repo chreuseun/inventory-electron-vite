@@ -1,5 +1,10 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import {
+  IEunDevIPC,
+  IMyChannelEventNames,
+  ICUSTOM_IPC_NAMES
+} from '../interfaces/mychannel.ipc.interface'
 
 // Custom APIs for renderer
 const api = {}
@@ -11,6 +16,12 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld(ICUSTOM_IPC_NAMES.EUN_DEV_IPC, {
+      sendHello: (message) => ipcRenderer.send(IMyChannelEventNames.HELLO_MAIN, message),
+      getAppVersion: () => ipcRenderer.invoke(IMyChannelEventNames.GET_APP_VERSION),
+      onMainEvent: (callback) =>
+        ipcRenderer.on(IMyChannelEventNames.MAIN_TEST_EVENT, (event, data) => callback(event, data))
+    } as IEunDevIPC)
   } catch (error) {
     console.error(error)
   }

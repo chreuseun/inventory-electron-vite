@@ -2,6 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { IMyChannelEventNames } from '../interfaces/mychannel.ipc.interface'
+
+import { version as packageVersion } from '../../package.json'
 
 function createWindow(): void {
   // Create the browser window.
@@ -33,6 +36,16 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // Other codes like send message to ipcRenderer
+
+  // Example: Sending a message to the renderer process after 5 seconds
+  setTimeout(() => {
+    mainWindow?.webContents.send(
+      IMyChannelEventNames.MAIN_TEST_EVENT,
+      'Hello Renderer! 5 seconds hads passed, the main process triggered this event.'
+    )
+  }, 5000)
 }
 
 // This method will be called when Electron has finished
@@ -48,9 +61,6 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
 
@@ -70,5 +80,19 @@ app.on('window-all-closed', () => {
   }
 })
 
+// IPC test
+ipcMain.on('ping', () => console.log('pong'))
+
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+// EUN_DEV_IPCs
+// One-Way Comms : Renderer send message to
+ipcMain.on(IMyChannelEventNames.HELLO_MAIN, (_, data: string) => {
+  console.log(`-- ipcMain.on: ${IMyChannelEventNames.HELLO_MAIN}: `, JSON.stringify(data, null, 4))
+})
+
+// Two-way comms
+ipcMain.handle(IMyChannelEventNames.GET_APP_VERSION, () => {
+  return { version: packageVersion, appName: app.getName() }
+})
