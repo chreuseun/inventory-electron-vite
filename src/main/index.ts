@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { IMyChannelEventNames } from '../interfaces/mychannel.ipc.interface'
 
 import { version as packageVersion } from '../../package.json'
+import initializeDB from '../database/initializeDB'
 
 function createWindow(): void {
   // Create the browser window.
@@ -78,6 +79,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('ready', () => {
+  console.log('*** Setting Up SQLite3 DB')
+  initializeDB()
 })
 
 // IPC test
