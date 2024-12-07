@@ -6,24 +6,25 @@ import { IMyChannelEventNames } from '@src/interfaces/mychannel.ipc.interface'
 
 import { version as packageVersion } from '../../package.json'
 import { initialSQLite3Setup } from '@src/database/dbOps/initialSQLite3Setup'
+import localDBMainHandler from './handlers/localDBMainHandler'
 
 const sqlite3DBInitiator: () => void = () => {
   console.log('*** Setting Up SQLite3 DB')
   console.log('*** Creating Tables')
 
-  const okay: () => void = () => {
-    console.log('-- TABLES ARE CREATED')
-  }
-  const err1: () => void = () => {
-    console.log('-- TABLES ARE NOT CREATED')
-  }
-
-  initialSQLite3Setup(okay, err1)
+  initialSQLite3Setup(
+    (res) => {
+      console.log(`SUCCESS@initialSQLite3Setup: ${JSON.stringify(res, null, 4)}`)
+    },
+    (err) => {
+      console.log(`ERROR@initialSQLite3Setup: ${err}`)
+    }
+  )
 }
 
 function createWindow(): void {
   // Create the browser window.
-  console.log('---__dirnamess: ', path.join(__dirname, '../../resources/icon.png'))
+  console.log('For App Icon: __dirname: ', path.join(__dirname, '../../resources/icon.png'))
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
@@ -33,7 +34,8 @@ function createWindow(): void {
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      devTools: true
     }
   })
 
@@ -54,15 +56,9 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
-  // Other codes like send message to ipcRenderer
-
-  // Example: Sending a message to the renderer process after 5 seconds
-  setTimeout(() => {
-    mainWindow?.webContents.send(
-      IMyChannelEventNames.MAIN_TEST_EVENT,
-      'Hello Renderer! 5 seconds hads passed, the main process triggered this event.'
-    )
-  }, 5000)
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools()
+  }
 }
 
 // This method will be called when Electron has finished
@@ -119,3 +115,6 @@ ipcMain.on(IMyChannelEventNames.HELLO_MAIN, (_, data: string) => {
 ipcMain.handle(IMyChannelEventNames.GET_APP_VERSION, () => {
   return { version: packageVersion, appName: app.getName() }
 })
+
+// Event handler for DB_CRUD
+localDBMainHandler()

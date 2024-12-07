@@ -2,23 +2,62 @@ import {
   SQL_CREATE_USERS_TABLE_IF_EXIST,
   SQL_CREATE_MATERIALS_TABLE_IF_EXIST,
   SQL_CREATE_PRODUCTS_TABLE_IF_EXIST,
-  SQL_CREATE_RECIPES_TABLE_IF_EXIST
+  SQL_CREATE_RECIPES_TABLE_IF_EXIST,
+  SQL_CREATE_RECIPE_ITEMS_TABLE_IF_EXIST,
+  SQL_CREATE_SHELF_STOCK_TRANSACTION_TABLE_IF_EXIST,
+  SQL_CREATE_STOCK_TRANSACTIONS_TABLE_IF_EXIST
 } from './sql/sql.createTables'
 import { sqliteCreateTable } from './sqliteFunctions'
+import { ISQLite3TableNames } from '@src/database/dbInterfaces/database.interfaces'
 
-const initialSQLite3Setup: (successCallback: () => void, errorCallback: () => void) => boolean = (
-  successCallback,
-  errorCallback
-) => {
+interface IInitialDBSetupResult {
+  errors: string[]
+  data: { table: string; isSuccess: boolean }[]
+}
+
+const initialSQLite3Setup: (
+  successCallback: (result: IInitialDBSetupResult) => void,
+  errorCallback: (err: string) => void
+) => IInitialDBSetupResult = (successCallback, errorCallback) => {
+  const dbSetupResult: IInitialDBSetupResult = {
+    errors: [],
+    data: []
+  }
+
+  const updateDBRes: (args: {
+    table: ISQLite3TableNames
+    isSuccess: boolean
+    errorMsg: string
+  }) => void = ({ isSuccess, errorMsg, table }) => {
+    if (errorMsg) {
+      dbSetupResult.errors = [...dbSetupResult.errors, errorMsg]
+    }
+    dbSetupResult.data = [
+      ...dbSetupResult.data,
+      {
+        table: table,
+        isSuccess
+      }
+    ]
+  }
+
   try {
     // users table
     sqliteCreateTable({
       SQL: SQL_CREATE_USERS_TABLE_IF_EXIST,
       onCompleted: () => {
-        console.log('-- OK: CREATE users table')
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.USERS_TABLE
+        })
       },
-      onError: () => {
-        console.log('-- FAIL: CREATE users table')
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.USERS_TABLE
+        })
       }
     })
 
@@ -26,10 +65,18 @@ const initialSQLite3Setup: (successCallback: () => void, errorCallback: () => vo
     sqliteCreateTable({
       SQL: SQL_CREATE_PRODUCTS_TABLE_IF_EXIST,
       onCompleted: () => {
-        console.log('-- OK: CREATE Products Tbl')
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.PRODUCTS_TABLE
+        })
       },
-      onError: () => {
-        console.log('-- FAIL: CREATE Products Tbl')
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.PRODUCTS_TABLE
+        })
       }
     })
 
@@ -37,10 +84,18 @@ const initialSQLite3Setup: (successCallback: () => void, errorCallback: () => vo
     sqliteCreateTable({
       SQL: SQL_CREATE_MATERIALS_TABLE_IF_EXIST,
       onCompleted: () => {
-        console.log('-- OK: CREATE materials table')
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.MATERIALS
+        })
       },
-      onError: () => {
-        console.log('-- FAIL: CREATE materials table')
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.MATERIALS
+        })
       }
     })
 
@@ -48,21 +103,84 @@ const initialSQLite3Setup: (successCallback: () => void, errorCallback: () => vo
     sqliteCreateTable({
       SQL: SQL_CREATE_RECIPES_TABLE_IF_EXIST,
       onCompleted: () => {
-        console.log('-- OK: CREATE recipes table')
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.RECIPES_TABLE
+        })
       },
-      onError: () => {
-        console.log('-- FAIL: CREATE recipes table')
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.RECIPES_TABLE
+        })
       }
     })
 
-    successCallback()
-    return true
-  } catch (err) {
-    console.log('-- ERR@initialSQLite3Setup: ', err)
-    errorCallback()
+    // recipe_items table
+    sqliteCreateTable({
+      SQL: SQL_CREATE_RECIPE_ITEMS_TABLE_IF_EXIST,
+      onCompleted: () => {
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.RECIPE_ITEMS_TABLE
+        })
+      },
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.RECIPE_ITEMS_TABLE
+        })
+      }
+    })
 
-    return false
+    // shelf_stock_txn table
+    sqliteCreateTable({
+      SQL: SQL_CREATE_SHELF_STOCK_TRANSACTION_TABLE_IF_EXIST,
+      onCompleted: () => {
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.SHELF_STOCK_TRANSACTIONS_TABLE
+        })
+      },
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.SHELF_STOCK_TRANSACTIONS_TABLE
+        })
+      }
+    })
+
+    // stock_transaction table
+    sqliteCreateTable({
+      SQL: SQL_CREATE_STOCK_TRANSACTIONS_TABLE_IF_EXIST,
+      onCompleted: () => {
+        updateDBRes({
+          isSuccess: true,
+          errorMsg: '',
+          table: ISQLite3TableNames.STOCK_TRANSACTIONS_TABLE
+        })
+      },
+      onError: (error) => {
+        updateDBRes({
+          isSuccess: false,
+          errorMsg: error,
+          table: ISQLite3TableNames.SHELF_STOCK_TRANSACTIONS_TABLE
+        })
+      }
+    })
+
+    successCallback(dbSetupResult)
+  } catch (err) {
+    errorCallback(`${err}`)
   }
+
+  return dbSetupResult
 }
 
 export { initialSQLite3Setup }

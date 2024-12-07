@@ -3,7 +3,7 @@ import initializeDB from '../initializeDB'
 interface ISQLiteCreateTable {
   SQL: string
   onCompleted: () => void
-  onError: (error: unknown) => void
+  onError: (error: string) => void
 }
 
 const sqliteCreateTable: (args: ISQLiteCreateTable) => void = ({ SQL, onCompleted, onError }) => {
@@ -13,7 +13,8 @@ const sqliteCreateTable: (args: ISQLiteCreateTable) => void = ({ SQL, onComplete
 
     onCompleted()
   } catch (sqlError) {
-    onError(sqlError)
+    const errorMessage = sqlError as string
+    onError(errorMessage)
   }
 }
 
