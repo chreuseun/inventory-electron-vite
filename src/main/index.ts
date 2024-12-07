@@ -5,8 +5,21 @@ import icon from '@resources/icon.png?asset'
 import { IMyChannelEventNames } from '@src/interfaces/mychannel.ipc.interface'
 
 import { version as packageVersion } from '../../package.json'
-import initializeDB from '@src/database/initializeDB'
-import { createUserTable, dtoGetAllUsers, insertNewUser } from '@src/database/dbOps/usersTable'
+import { initialSQLite3Setup } from '@src/database/dbOps/initialSQLite3Setup'
+
+const sqlite3DBInitiator: () => void = () => {
+  console.log('*** Setting Up SQLite3 DB')
+  console.log('*** Creating Tables')
+
+  const okay: () => void = () => {
+    console.log('-- TABLES ARE CREATED')
+  }
+  const err1: () => void = () => {
+    console.log('-- TABLES ARE NOT CREATED')
+  }
+
+  initialSQLite3Setup(okay, err1)
+}
 
 function createWindow(): void {
   // Create the browser window.
@@ -85,25 +98,9 @@ app.on('window-all-closed', () => {
 })
 
 app.on('ready', () => {
-  console.log('*** Setting Up SQLite3 DB')
-  initializeDB()
-  console.log('*** Creating Tables')
+  //
 
-  // Create TABLES
-  createUserTable()
-
-  //select
-  const allUsers = dtoGetAllUsers()
-  if (!allUsers.length) {
-    // insert one
-    insertNewUser({
-      username: 'developer',
-      password: 'root_euneun'
-    })
-
-    // ceheck again
-    dtoGetAllUsers()
-  }
+  sqlite3DBInitiator()
 })
 
 // IPC test
