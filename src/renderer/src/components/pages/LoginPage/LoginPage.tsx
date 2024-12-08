@@ -1,42 +1,43 @@
 import { MyTextInput } from '@renderer/components/common'
 import MyButton from '@renderer/components/common/MyButton'
-import { useEffect } from 'react'
+import { useVerifyUser } from '@renderer/hooks/users'
+import { useState } from 'react'
 
 const LoginPage: React.FC = () => {
-  useEffect(() => {
-    const testRun: () => void = () => {
-      window.RENDERER_DB_CRUD.executeLocalDB<unknown>({
-        action: 'read',
-        payload: {
-          sql: `
-            INSERT INTO users (
-              reference_id,
-              username,
-              password,
-              is_active,
-              created_by,
-              updated_by
-            ) VALUES (
-             ?, ?, ?, ?, ?, ?
-            );
-          `,
-          params: ['root2REF', 'root2', 'password', 0, 'admin', null],
+  const [username, setUN] = useState('')
+  const [password, setPW] = useState('')
 
-          operationName: 'OPT_TEST'
-        }
-      })
+  const { runVerifyUser } = useVerifyUser({
+    onCompleted: ({ result }) => {},
+    onError: (errMsg) => {}
+  })
+
+  const onClickLogin: () => void = () => {
+    runVerifyUser({
+      username,
+      password
+    })
+  }
+
+  const onChangeUsernameInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (event.target.value) {
+      setUN(event.target.value)
     }
+  }
 
-    testRun()
-  }, [])
+  const onChangePasswordInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (event.target.value) {
+      setPW(event.target.value)
+    }
+  }
 
   return (
     <div className="h-full overflow-y-scroll p-4 flex justify-end gap-x-4">
       <div className="bg-secondaryBackground rounded-xl p-5 px-10 md:w-1/3 max-w-xl pt-56 flex flex-col items-stretch">
-        <MyTextInput placeholder="Username" />
+        <MyTextInput placeholder="Username" onChange={onChangeUsernameInput} />
         <div className="mb-2"></div>
-        <MyTextInput placeholder="Password" type="password" />
-        <MyButton onClick={() => {}} label={'Login'} className="px-10 mt-4" />
+        <MyTextInput placeholder="Password" type="password" onChange={onChangePasswordInput} />
+        <MyButton onClick={onClickLogin} label={'Login'} className="px-10 mt-4" />
       </div>
     </div>
   )
