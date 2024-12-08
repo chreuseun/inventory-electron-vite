@@ -8,6 +8,7 @@
     "src/interfaces/**/*",
     "src/hooks/**/*",
     "src/utils/**/*",
+    "src/configs/**/*",
   ],
   "compilerOptions": {
     "composite": true,
