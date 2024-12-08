@@ -7,10 +7,7 @@ const LoginPage: React.FC = () => {
   const [username, setUN] = useState('')
   const [password, setPW] = useState('')
 
-  const { runVerifyUser } = useVerifyUser({
-    onCompleted: ({ result }) => {},
-    onError: (errMsg) => {}
-  })
+  const { runVerifyUser } = useVerifyUser({})
 
   const onClickLogin: () => void = () => {
     runVerifyUser({

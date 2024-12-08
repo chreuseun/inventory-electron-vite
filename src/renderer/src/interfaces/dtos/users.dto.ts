@@ -18,8 +18,8 @@ export interface IRunVerifyUser {
 }
 
 export type IUseVerifyUser = (args: {
-  onCompleted: (data: IRunVerifyUserResponse) => void
-  onError: (err: string) => void
+  onCompleted?: (data: IRunVerifyUserResponse) => void
+  onError?: (err: string) => void
 }) => {
   runVerifyUser: ({ username, password }: IRunVerifyUser) => Promise<void>
   loading: boolean

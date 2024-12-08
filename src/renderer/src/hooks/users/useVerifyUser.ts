@@ -1,11 +1,12 @@
-import { is } from '@electron-toolkit/utils'
 import {
   IRunVerifyUser,
   IRunVerifyUserResponseResult,
   IUseVerifyUser
 } from '@renderer/interfaces/dtos/users.dto'
+import { updateAuthSlice } from '@renderer/redux/slices/authSlice'
 import { executeSQLiteQuery } from '@renderer/utils/sqlite'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const SELECT_ONE_USER = `
 SELECT 
@@ -23,6 +24,7 @@ WHERE
 `
 
 const useVerifyUser: IUseVerifyUser = ({ onCompleted, onError }) => {
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
 
   const runVerifyUser: ({ username, password }: IRunVerifyUser) => Promise<void> = async ({
@@ -45,16 +47,25 @@ const useVerifyUser: IUseVerifyUser = ({ onCompleted, onError }) => {
     const { success, error, result } = response
     const isLocked = !result?.[0]?.is_active
     const isAuthenticated = success && !isLocked
+    console.log('--- G:', success && !error && isAuthenticated)
 
     if (success && !error && isAuthenticated) {
-      onCompleted({
-        success,
-        error,
-        result
-      })
+      dispatch(
+        updateAuthSlice({
+          isAuthenticating: false,
+          isAuthorized: true
+        })
+      )
+
+      !!onCompleted &&
+        onCompleted({
+          success,
+          error,
+          result
+        })
     } else {
       const errorMessage = isLocked ? 'Account is locked, please contact your admin' : error
-      onError(`Verify User: ${errorMessage}`)
+      !!onError && onError(`Verify User: ${errorMessage}`)
     }
 
     setLoading(false)

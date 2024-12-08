@@ -1,12 +1,12 @@
 import { Provider } from 'react-redux'
 
-import PublicRouter from '@renderer/routers/PublicRouter'
 import store from '@renderer/redux/store'
+import AuthWrapperRoute from './routers'
 
 function App(): JSX.Element {
   return (
     <Provider store={store}>
-      <PublicRouter />
+      <AuthWrapperRoute />
     </Provider>
   )
 }
