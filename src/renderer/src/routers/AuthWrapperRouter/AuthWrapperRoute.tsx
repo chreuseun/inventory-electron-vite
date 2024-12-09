@@ -1,16 +1,13 @@
 import { useSelectorAuthSlice } from '@renderer/hooks/reduxSelectors'
 import ApplicationRouter from '@renderer/routers/ApplicationRouter'
 import PublicRouter from '@renderer/routers/PublicRouter'
-import { useEffect } from 'react'
+
+const IS_DEV = true
 
 const AuthWrapperRoute: React.FC = () => {
   const { isAuthorized } = useSelectorAuthSlice()
 
-  useEffect(() => {
-    console.log('--isAuthorized:', isAuthorized)
-  }, [isAuthorized])
-
-  if (isAuthorized) {
+  if (isAuthorized || IS_DEV) {
     return <ApplicationRouter />
   }
 

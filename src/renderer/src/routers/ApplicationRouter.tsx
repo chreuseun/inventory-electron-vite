@@ -2,7 +2,12 @@ import React from 'react'
 
 import { HashRouter as Router, Route, Routes, Navigate } from 'react-router'
 
-import { MaterialsMainPage } from '@renderer/components/pages'
+import {
+  MaterialsMainPage,
+  ProductsMainPage,
+  RecipesMainPage,
+  ReportsMainPage
+} from '@renderer/components/pages'
 import { MySidebar } from '@renderer/components/common'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 
@@ -13,6 +18,10 @@ const PublicRouter: React.FC = () => {
         <MySidebar />
         <Routes>
           <Route path={APPLICATION_ROUTES.MANAGE_MATERIALS.path} element={<MaterialsMainPage />} />
+          <Route path={APPLICATION_ROUTES.MANAGE_PRODUCTS.path} element={<ProductsMainPage />} />
+          <Route path={APPLICATION_ROUTES.MANAGE_RECIPES.path} element={<RecipesMainPage />} />
+          <Route path={APPLICATION_ROUTES.MANAGE_REPORTS.path} element={<ReportsMainPage />} />
+
           <Route
             path="*"
             element={<Navigate to={APPLICATION_ROUTES.MANAGE_MATERIALS.path} replace />}
