@@ -3,4 +3,7 @@ import LandingPage from './LandingPage'
 import ProfilePage from './ProfilePage'
 import LoginPage from './LoginPage'
 
-export { HomePage, LandingPage, ProfilePage, LoginPage }
+//
+import MaterialsMainPage from './MaterialsMainPage'
+
+export { HomePage, LandingPage, ProfilePage, LoginPage, MaterialsMainPage }
