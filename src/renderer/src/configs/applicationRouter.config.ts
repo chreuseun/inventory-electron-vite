@@ -13,6 +13,9 @@ const APPLICATION_ROUTES = {
   },
   MANAGE_REPORTS: {
     path: '/manage-reports'
+  },
+  MATERIAL_FORM: {
+    path: '/material-form'
   }
 }
 

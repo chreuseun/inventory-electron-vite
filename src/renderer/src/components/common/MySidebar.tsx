@@ -5,7 +5,7 @@ const MySidebar: React.FC = () => {
   const { pathname } = useLocation()
 
   return (
-    <div className="hidden md:block w-52 bg-background">
+    <div className="hidden md:block bg-background w-64 flex-shrink-0">
       <div className="h-32 mb-4 rounded-full text-sm">{pathname}</div>
       {SIDEBAR_DISPLAY_ARRAY.map((items) => {
         const { label, path } = items

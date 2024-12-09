@@ -1,10 +1,14 @@
 import { MyButton } from '@renderer/components/common'
 import { MainAppTemplate } from '@renderer/components/templates'
+import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { useGetMaterialsList } from '@renderer/hooks/materials'
+import { navigateToScreen } from '@renderer/utils/navigate'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<unknown[]>([])
+  const navigate = useNavigate()
 
   const { runGetMaterialsList } = useGetMaterialsList({
     onCompleted: (response) => {
@@ -30,7 +34,15 @@ const MaterialsMainPage: React.FC = () => {
 
       <div className="border border-sectBorder p-2 flex-grow">
         <div className="border  border-sectBorder p-1 mb-2 flex justify-between ">
-          <MyButton label={`+ New Material`} onClick={() => {}} />
+          <MyButton
+            label={`+ New Material`}
+            onClick={() => {
+              navigateToScreen(navigate, {
+                replace: false,
+                path: APPLICATION_ROUTES.MATERIAL_FORM.path
+              })
+            }}
+          />
           <MyButton
             label={`Reload List`}
             onClick={() => {

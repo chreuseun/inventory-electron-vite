@@ -3,6 +3,7 @@ import React from 'react'
 import { HashRouter as Router, Route, Routes, Navigate } from 'react-router'
 
 import {
+  MaterialFormPage,
   MaterialsMainPage,
   ProductsMainPage,
   RecipesMainPage,
@@ -21,6 +22,7 @@ const PublicRouter: React.FC = () => {
           <Route path={APPLICATION_ROUTES.MANAGE_PRODUCTS.path} element={<ProductsMainPage />} />
           <Route path={APPLICATION_ROUTES.MANAGE_RECIPES.path} element={<RecipesMainPage />} />
           <Route path={APPLICATION_ROUTES.MANAGE_REPORTS.path} element={<ReportsMainPage />} />
+          <Route path={APPLICATION_ROUTES.MATERIAL_FORM.path} element={<MaterialFormPage />} />
 
           <Route
             path="*"

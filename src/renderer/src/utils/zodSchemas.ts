@@ -33,22 +33,13 @@ const ProductSchema = z.object({
 
 // Materials Table Schema
 const MaterialSchema = z.object({
-  id: z.number().optional(), // Primary key, auto-increment
-  reference_id: z.string().uuid(), // Unique, non-null
   display_name: z.string().min(1), // Non-null
   unit: z.string().min(1), // Non-null
   format: z.string().min(1), // Non-null
   price: z.number().nonnegative().default(0.0), // Defaults to 0.00
-  category_id: z.string().min(1), // Non-null
-  sub_category_id: z.string().min(1), // Non-null
-  brand_id: z.string().min(1), // Non-null
   alert_threshold: z.number().int().default(5), // Defaults to 5
   current_stock_quantity: z.number().int().default(0), // Defaults to 0
-  stock_base_quantity: z.number().int().default(0), // Defaults to 0
-  created_at: z.date().optional(), // Defaults to CURRENT_TIMESTAMP
-  created_by: z.string().min(1), // Non-null
-  updated_at: z.date().optional(), // Defaults to CURRENT_TIMESTAMP
-  updated_by: z.string().nullable() // Can be null
+  stock_base_quantity: z.number().int().default(0) // Defaults to 0
 })
 
 // Recipes Table Schema
