@@ -1,8 +1,12 @@
+export type IRendererDBAction = 'create' | 'read' | 'update' | 'delete' | 'list' | 'bulkUpsert'
+
+export type customSQLParams = string | number | null | undefined
+
 interface IExecuteSQLiteQuery {
   sql: string
-  params: (string | number | null | undefined)[]
+  params: customSQLParams[] | unknown[]
   operationName: string
-  action: 'create' | 'read' | 'update' | 'delete' | 'list'
+  action: IRendererDBAction
 }
 
 const executeSQLiteQuery: (args: IExecuteSQLiteQuery) => Promise<{

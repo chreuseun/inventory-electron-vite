@@ -1,3 +1,5 @@
+import { ValidationRule } from 'react-hook-form'
+
 export type IFormInputTypes = 'TEXT' | 'TIMESTAMP' | 'DATE' | 'NUMBER' //  TIMESTAMP_RANGE
 
 export type MyDynamicFormInput = {
@@ -9,6 +11,7 @@ export type MyDynamicFormInput = {
   minLength?: number
   max?: number
   min?: number
-  pattern?: { message: string; value: RegExp }
+  pattern?: ValidationRule<RegExp>
   actions?: 'UPSERT' | 'INSERT'
+  valueAsNumber?: boolean
 }

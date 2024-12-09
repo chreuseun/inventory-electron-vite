@@ -1,15 +1,32 @@
 import { MainAppTemplate } from '@renderer/components/templates'
-import { MyButton } from '@renderer/components/common'
+import { MyButton, MyLoadingModal } from '@renderer/components/common'
 import React from 'react'
 import { useMaterialForm } from '@renderer/hooks/reactForms'
 import { MATERIAL_FORM_INPUTS } from '@renderer/configs/forms/materialForm.config'
+import { useCreateMaterial } from '@renderer/hooks/materials'
+import { MaterialFormData } from '@renderer/hooks/reactForms/useMaterialForm'
+import { showToast } from '@renderer/utils/reactToastify'
 
 const MaterialForm1: React.FC = () => {
-  const { errors, handleSubmit, register } = useMaterialForm()
+  const { errors, handleSubmit, register, reset } = useMaterialForm()
+  const { runCreateMaterial, loading } = useCreateMaterial({
+    onCompleted: (data) => {
+      try {
+        if (data.success && data.result.insertedCount > 0) {
+          showToast({ type: 'info', message: `Material Added` })
+          reset()
+        }
+      } catch (errMsg) {
+        showToast({ type: 'error', message: `Material Add Error: ${errMsg}` })
+      }
+    },
+    onError: (err) => {
+      showToast({ type: 'error', message: `Material Add Error: ${err}` })
+    }
+  })
 
-  // Function to handle form submission manually
-  const onSubmit: (arg: unknown) => void = (data: unknown) => {
-    console.log('Form submitted:', data)
+  const onSubmit: (data: MaterialFormData) => void = (data) => {
+    runCreateMaterial({ newMaterial: data })
   }
 
   const handleFormSubmit: () => void = () => {
@@ -18,17 +35,35 @@ const MaterialForm1: React.FC = () => {
 
   return (
     <React.Fragment>
+      <MyLoadingModal isOpen={loading} />
       <MyButton onClick={handleFormSubmit} label={'Save Material'} className="mt-4 w-32" />
-      <div className=" border border-sectBorder p-4 mt-2 flex flex-wrap gap-x-2 overflow-auto">
+      <div className=" border border-sectBorder p-4 mt-2 flex flex-wrap gap-x-2 overflow-auto gap-y-3 ">
         {MATERIAL_FORM_INPUTS.map((input) => {
           return (
             <div key={input.id} className="flex flex-col mb-2 w-full sm:w-perc48">
-              <label htmlFor={input.id} className="text-xs font-extrabold text-primaryText">
+              <label htmlFor={input.id} className="text-sm font-extrabold text-primaryText">
                 {input.label}
               </label>
               <input
                 id={input.id}
-                {...register(input.id)}
+                {...register(
+                  input.id as
+                    | 'alert_threshold'
+                    | 'current_stock_quantity'
+                    | 'display_name'
+                    | 'format'
+                    | 'price'
+                    | 'stock_base_quantity'
+                    | 'unit',
+                  {
+                    required: input.required,
+                    valueAsNumber: input.valueAsNumber,
+                    minLength: input.minLength,
+                    maxLength: input.maxLength,
+                    max: input.max,
+                    min: input.min
+                  }
+                )}
                 type={input.type.toLowerCase()}
                 className={`text-dark mt-1 px-2 border rounded ${
                   errors[input.id] ? 'border-error border-2' : 'border-border'

@@ -1,3 +1,4 @@
 import useGetMaterialsList from './useGetMaterialsList'
+import useCreateMaterial from './useCreateMaterial'
 
-export { useGetMaterialsList }
+export { useGetMaterialsList, useCreateMaterial }

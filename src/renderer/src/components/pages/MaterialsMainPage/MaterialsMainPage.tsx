@@ -24,16 +24,8 @@ const MaterialsMainPage: React.FC = () => {
 
   return (
     <MainAppTemplate headerText="Manage Materials" className="flex flex-col">
-      <MyButton
-        label={`TEST_getAllMaterials`}
-        onClick={() => {
-          runGetMaterialsList({ displayName: 'name' })
-        }}
-        className="mb-4"
-      />
-
-      <div className="border border-sectBorder p-2 flex-grow">
-        <div className="border  border-sectBorder p-1 mb-2 flex justify-between ">
+      <div className="p-2 flex-grow flex flex-col">
+        <div className="mb-2 flex justify-between ">
           <MyButton
             label={`+ New Material`}
             onClick={() => {
@@ -50,8 +42,8 @@ const MaterialsMainPage: React.FC = () => {
             }}
           />
         </div>
-        <div className="border-b border-b-sectBorder mb-4">Materials List</div>
-        <div className="border border-sectBorder  p-1   rounded-xs">
+        <div className="border-b-sectBorder border-b-2 mb-2">Materials List</div>
+        <div className="border border-sectBorder  p-1 rounded-xs flex-grow">
           {materialsList.map((material) => {
             return (
               <div>

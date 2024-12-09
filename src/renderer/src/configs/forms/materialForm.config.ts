@@ -33,7 +33,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     minLength: 1,
     maxLength: 30,
     max: 999999999,
-    min: -999999999
+    min: -999999999,
+    valueAsNumber: true
   },
   {
     label: 'Alert Threshold',
@@ -43,7 +44,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     minLength: 1,
     maxLength: 30,
     max: 999999999,
-    min: -999999999
+    min: -999999999,
+    valueAsNumber: true
   },
   {
     label: 'Current Stock Quantity',
@@ -53,7 +55,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     minLength: 1,
     maxLength: 30,
     max: 999999999,
-    min: -999999999
+    min: -999999999,
+    valueAsNumber: true
   },
   {
     label: 'Stock Base Quantity',
@@ -63,6 +66,7 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     minLength: 1,
     maxLength: 30,
     max: 999999999,
-    min: -999999999
+    min: -999999999,
+    valueAsNumber: true
   }
 ]

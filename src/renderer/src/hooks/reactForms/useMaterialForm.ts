@@ -4,11 +4,18 @@ import {
   SubmitHandler,
   FieldErrors,
   UseFormHandleSubmit,
-  UseFormRegister
+  UseFormRegister,
+  UseFormReset
 } from 'react-hook-form'
 
-type MaterialFormData = {
-  [key in (typeof MATERIAL_FORM_INPUTS)[number]['id']]: string | number
+export type MaterialFormData = {
+  alert_threshold: number
+  current_stock_quantity: number
+  display_name: string
+  format: string
+  price: number
+  stock_base_quantity: number
+  unit: string
 }
 
 interface IUseMaterialForm {
@@ -16,13 +23,15 @@ interface IUseMaterialForm {
   handleSubmit: UseFormHandleSubmit<MaterialFormData, undefined>
   onSubmit: SubmitHandler<MaterialFormData>
   register: UseFormRegister<MaterialFormData>
+  reset: UseFormReset<MaterialFormData>
 }
 
 const useMaterialForm: () => IUseMaterialForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<MaterialFormData>({
     defaultValues: MATERIAL_FORM_INPUTS.reduce((acc, input) => {
       acc[input.id] = '' // Set the default value for each field
@@ -32,24 +41,34 @@ const useMaterialForm: () => IUseMaterialForm = () => {
 
   // Register each input dynamically with validation rules
   MATERIAL_FORM_INPUTS.forEach((input) => {
-    register(input.id, {
-      required: input.required ? `${input.label} is required` : false,
-      minLength: input.minLength
-        ? { value: input.minLength, message: `Minimum length is ${input.minLength}` }
-        : undefined,
-      maxLength: input.maxLength
-        ? { value: input.maxLength, message: `Maximum length is ${input.maxLength}` }
-        : undefined,
-      min:
-        input.min !== undefined
-          ? { value: input.min, message: `Minimum value is ${input.min}` }
+    register(
+      input.id as
+        | 'alert_threshold'
+        | 'current_stock_quantity'
+        | 'display_name'
+        | 'format'
+        | 'price'
+        | 'stock_base_quantity'
+        | 'unit',
+      {
+        required: input.required ? `${input.label} is required` : false,
+        minLength: input.minLength
+          ? { value: input.minLength, message: `Minimum length is ${input.minLength}` }
           : undefined,
-      max:
-        input.max !== undefined
-          ? { value: input.max, message: `Maximum value is ${input.max}` }
+        maxLength: input.maxLength
+          ? { value: input.maxLength, message: `Maximum length is ${input.maxLength}` }
           : undefined,
-      pattern: input.pattern
-    })
+        min:
+          input.min !== undefined
+            ? { value: input.min, message: `Minimum value is ${input.min}` }
+            : undefined,
+        max:
+          input.max !== undefined
+            ? { value: input.max, message: `Maximum value is ${input.max}` }
+            : undefined,
+        pattern: input.pattern
+      }
+    )
   })
 
   // Placeholder for form submit handler
@@ -61,7 +80,8 @@ const useMaterialForm: () => IUseMaterialForm = () => {
     handleSubmit,
     onSubmit,
     errors,
-    register
+    register,
+    reset
   }
 }
 

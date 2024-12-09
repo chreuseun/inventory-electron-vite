@@ -12,7 +12,7 @@ export enum IMyChannelEventNames {
   DB_CRUD = 'DB_CRUD'
 }
 
-export type IRendererDBAction = 'create' | 'read' | 'update' | 'delete' | 'list'
+export type IRendererDBAction = 'create' | 'read' | 'update' | 'delete' | 'list' | 'bulkUpsert'
 
 interface IEunDevIPC {
   sendHello: (message: string) => void
@@ -20,11 +20,13 @@ interface IEunDevIPC {
   onMainEvent: (callback: (event: IpcRendererEvent, data: string) => void) => void
 }
 
+export type customSQLParams = string | number | null | undefined
+
 interface IRendererExecuteSQL {
   action: IRendererDBAction
   payload: {
     sql: string
-    params: (string | number | null | undefined)[]
+    params: customSQLParams[] | unknown[]
     operationName: string
   }
 }

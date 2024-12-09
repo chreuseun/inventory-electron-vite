@@ -1,5 +1,9 @@
 import initializeDB from '@src/database/initializeDB'
-import { IMyChannelEventNames, IRendererExecuteSQL } from '@src/interfaces/mychannel.ipc.interface'
+import {
+  customSQLParams,
+  IMyChannelEventNames,
+  IRendererExecuteSQL
+} from '@src/interfaces/mychannel.ipc.interface'
 import Database from 'better-sqlite3'
 import { ipcMain } from 'electron'
 
@@ -24,7 +28,7 @@ const localDBMainHandler: () => void = () => {
       result: null
     }
 
-    const onSuccess: (arg1: Database.RunResult | unknown) => void = (sqlResult) => {
+    const onSuccess: (sqlResult: Database.RunResult | unknown) => void = (sqlResult) => {
       response.success = true
       response.error = null
       response.result = sqlResult
@@ -38,37 +42,66 @@ const localDBMainHandler: () => void = () => {
 
     try {
       const { params = [], sql } = payload
-      const stmt = db.prepare(sql)
-      console.log('-- localDBMainHandler: ', { sql, action })
 
       switch (action) {
         case 'create': {
+          const stmt = db.prepare(sql)
+
           const result = stmt.run(...params)
           onSuccess(result)
           break
         }
 
         case 'read': {
+          const stmt = db.prepare(sql)
+
           const result = stmt.get(...params)
           onSuccess(result)
           break
         }
 
         case 'update': {
+          const stmt = db.prepare(sql)
+
           const result = stmt.run(...params)
           onSuccess(result)
           break
         }
 
         case 'delete': {
+          const stmt = db.prepare(sql)
+
           const result = stmt.run(...params)
           onSuccess(result)
           break
         }
 
         case 'list': {
+          const stmt = db.prepare(sql)
+
           const result = stmt.all(...params)
           onSuccess(result)
+          break
+        }
+
+        case 'bulkUpsert': {
+          const upsertBulkData = params as customSQLParams[]
+          const stmt = db.prepare(sql)
+          let insertedCount = 0
+
+          const insertMany = db.transaction((upsertArray) => {
+            for (const itemArray of upsertArray) {
+              try {
+                stmt.run(itemArray)
+                insertedCount = insertedCount + 1
+              } catch (stmtRunError) {
+                //    win.webContents.send('message-from-main', 'Hello from Main Process!');
+                console.log('Error@stmtRunError: ', stmtRunError)
+              }
+            }
+          })
+          insertMany(upsertBulkData)
+          onSuccess({ insertedCount: insertedCount })
           break
         }
 
