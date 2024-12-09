@@ -6,7 +6,7 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <div>
+    <div className="mx-2 my-1 bg-background flex-grow rounded-lg p-4">
       <div>
         <button
           onClick={() => {

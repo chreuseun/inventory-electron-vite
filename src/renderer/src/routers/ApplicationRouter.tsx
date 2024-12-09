@@ -8,7 +8,7 @@ import { MySidebar } from '@renderer/components/common'
 const PublicRouter: React.FC = () => {
   return (
     <Router>
-      <div className="h-full overflow-y-scroll flex justify-start  border border-red-500">
+      <div className="h-full overflow-y-scroll flex justify-start bg-secondaryBackground">
         <MySidebar />
         <Routes>
           <Route path="/" element={<HomePage />} />
