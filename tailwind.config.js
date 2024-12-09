@@ -15,7 +15,8 @@ module.exports = {
         highlight: '#FFBF69',
         border: '#AFAFAF',
         light: '#FFF',
-        dark: '#121212'
+        dark: '#121212',
+        sectBorder: '#374151'
       }
     }
   },

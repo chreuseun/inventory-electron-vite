@@ -6,7 +6,7 @@ import { useState } from 'react'
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<unknown[]>([])
 
-  const { loading, runGetMaterialsList } = useGetMaterialsList({
+  const { runGetMaterialsList } = useGetMaterialsList({
     onCompleted: (response) => {
       const { result } = response
       console.log('- MATERIALS:', response)
@@ -19,7 +19,7 @@ const MaterialsMainPage: React.FC = () => {
   })
 
   return (
-    <MainAppTemplate headerText="Manage Materials">
+    <MainAppTemplate headerText="Manage Materials" className="flex flex-col">
       <MyButton
         label={`TEST_getAllMaterials`}
         onClick={() => {
@@ -28,10 +28,18 @@ const MaterialsMainPage: React.FC = () => {
         className="mb-4"
       />
 
-      <div>
-        <div className="border-b mb-4">Materials List</div>
-
-        <div className="border border-border p-1   rounded-xs">
+      <div className="border border-sectBorder p-2 flex-grow">
+        <div className="border  border-sectBorder p-1 mb-2 flex justify-between ">
+          <MyButton label={`+ New Material`} onClick={() => {}} />
+          <MyButton
+            label={`Reload List`}
+            onClick={() => {
+              runGetMaterialsList({ displayName: 'name' })
+            }}
+          />
+        </div>
+        <div className="border-b border-b-sectBorder mb-4">Materials List</div>
+        <div className="border border-sectBorder  p-1   rounded-xs">
           {materialsList.map((material) => {
             return (
               <div>
