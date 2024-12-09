@@ -47,7 +47,6 @@ const useVerifyUser: IUseVerifyUser = ({ onCompleted, onError }) => {
     const { success, error, result } = response
     const isLocked = !result?.[0]?.is_active
     const isAuthenticated = success && !isLocked
-    console.log('--- G:', success && !error && isAuthenticated)
 
     if (success && !error && isAuthenticated) {
       dispatch(
@@ -64,7 +63,14 @@ const useVerifyUser: IUseVerifyUser = ({ onCompleted, onError }) => {
           result
         })
     } else {
-      const errorMessage = isLocked ? 'Account is locked, please contact your admin' : error
+      const errorMessage = error
+        ? error
+        : !isAuthenticated
+          ? 'Invalid Username/Password'
+          : isLocked
+            ? 'Account is locked, please contact your admin'
+            : 'Login Error'
+
       !!onError && onError(`Verify User: ${errorMessage}`)
     }
 
