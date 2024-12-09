@@ -8,7 +8,7 @@ const MyButton: React.FC<{
   return (
     <button
       onClick={onClick}
-      className={`rounded-full border-border border hover:bg-light hover:border-light  hover:text-dark text-light font-bold p-1 ${className || ''}`}
+      className={`rounded-full border-border border hover:bg-light hover:border-light  hover:text-dark text-light font-bold p-2 text-xs px-4 ${className || ''}`}
     >
       {label || ''}
     </button>

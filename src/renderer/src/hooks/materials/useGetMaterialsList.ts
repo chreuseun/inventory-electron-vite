@@ -4,15 +4,22 @@ import { useState } from 'react'
 const SELECT_ALL_MATERIALS = `
 SELECT 
     *
-materials
+FROM 
+  materials
 
 LIMIT 30
 `
 
 type IRunGetMaterialsList = (args: { displayName: string | null }) => Promise<void>
 
+interface IRunGetMaterialsListResult {
+  success: boolean
+  error: string | null
+  result: unknown[]
+}
+
 type IUseGetMaterialsList = (args: {
-  onCompleted?: (data: unknown) => void
+  onCompleted?: (data: IRunGetMaterialsListResult) => void
   onError?: (err: string) => void
 }) => {
   loading: boolean
@@ -30,11 +37,7 @@ const useGetMaterialsList: IUseGetMaterialsList = ({ onCompleted, onError }) => 
       action: 'list',
       params: [],
       operationName: 'useGetMaterialsList'
-    })) as {
-      success: boolean
-      error: string | null
-      result: unknown[]
-    }
+    })) as IRunGetMaterialsListResult
 
     if (onCompleted) {
       onCompleted(response)
