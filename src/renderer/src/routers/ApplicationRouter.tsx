@@ -12,7 +12,7 @@ const PublicRouter: React.FC = () => {
       <div className="h-full overflow-y-scroll flex justify-start bg-secondaryBackground">
         <MySidebar />
         <Routes>
-          <Route path={APPLICATION_ROUTES.HOME.path} element={<HomePage />} />
+          <Route path={APPLICATION_ROUTES.HOME.path} element={<MaterialsMainPage />} />
           <Route path={APPLICATION_ROUTES.MANAGE_MATERIALS.path} element={<MaterialsMainPage />} />
           <Route path="*" element={<Navigate to={APPLICATION_ROUTES.HOME.path} replace />} />
         </Routes>

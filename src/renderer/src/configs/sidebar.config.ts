@@ -12,7 +12,7 @@ const SIDEBAR_ITEMS = {
     label: 'Manage Recipes'
   },
   REPORTS: {
-    label: 'Records'
+    label: 'Reports'
   }
 }
 
