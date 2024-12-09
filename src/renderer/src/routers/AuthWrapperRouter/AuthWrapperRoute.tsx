@@ -2,7 +2,7 @@ import { useSelectorAuthSlice } from '@renderer/hooks/reduxSelectors'
 import ApplicationRouter from '@renderer/routers/ApplicationRouter'
 import PublicRouter from '@renderer/routers/PublicRouter'
 
-const IS_DEV = true
+const IS_DEV = false
 
 const AuthWrapperRoute: React.FC = () => {
   const { isAuthorized } = useSelectorAuthSlice()

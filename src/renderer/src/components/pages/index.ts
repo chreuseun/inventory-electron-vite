@@ -1,6 +1,3 @@
-import HomePage from './HomePage'
-import LandingPage from './LandingPage'
-import ProfilePage from './ProfilePage'
 import LoginPage from './LoginPage'
 
 //
@@ -10,9 +7,6 @@ import RecipesMainPage from './RecipesMainPage'
 import ReportsMainPage from './ReportsMainPage'
 
 export {
-  HomePage,
-  LandingPage,
-  ProfilePage,
   LoginPage,
   //
   MaterialsMainPage,

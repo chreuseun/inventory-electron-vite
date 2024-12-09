@@ -5,7 +5,7 @@ const MainAppTemplate: React.FC<{ children: React.ReactNode; headerText?: string
   headerText
 }) => {
   return (
-    <div className="mx-2 my-2 bg-background flex-grow rounded-lg p-4">
+    <div className="m-4 bg-background flex-grow rounded-lg p-8">
       {headerText ? <h1 className="font-bold text-secondaryText text-sm">{headerText}</h1> : null}
       {children}
     </div>
