@@ -16,7 +16,7 @@ import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 const PublicRouter: React.FC = () => {
   return (
     <Router>
-      <div className="h-full overflow-y-scroll flex justify-start bg-secondaryBackground">
+      <div className="h-full   flex justify-start bg-secondaryBackground">
         <MySidebar />
         <Routes>
           <Route path={APPLICATION_ROUTES.MANAGE_MATERIALS.path} element={<MaterialsMainPage />} />

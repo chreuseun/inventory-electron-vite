@@ -82,7 +82,7 @@ const MaterialForm1: React.FC = () => {
 
 const MaterialFormPage: React.FC = () => {
   return (
-    <MainAppTemplate headerText="Material Form" className="flex flex-col">
+    <MainAppTemplate allowGoBack headerText="Material Form" className="flex flex-col">
       <MaterialForm1 />
     </MainAppTemplate>
   )
