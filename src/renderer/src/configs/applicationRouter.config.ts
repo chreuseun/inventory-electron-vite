@@ -16,6 +16,9 @@ const APPLICATION_ROUTES = {
   },
   MATERIAL_FORM: {
     path: '/material-form'
+  },
+  PRODUCT_FORM: {
+    path: '/product-form'
   }
 }
 

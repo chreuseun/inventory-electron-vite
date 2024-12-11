@@ -1,3 +1,4 @@
+import { HTMLInputTypeAttribute } from 'react'
 import { ValidationRule } from 'react-hook-form'
 
 export type IFormInputTypes = 'TEXT' | 'TIMESTAMP' | 'DATE' | 'NUMBER' //  TIMESTAMP_RANGE
@@ -14,4 +15,39 @@ export type MyDynamicFormInput = {
   pattern?: ValidationRule<RegExp>
   actions?: 'UPSERT' | 'INSERT'
   valueAsNumber?: boolean
+}
+
+export type CustomFormInputType =
+  | 'TEXT'
+  | 'NUMBER'
+  | 'TIMESTAMP'
+  | 'DATE'
+  | 'TIMESTAMP_FROM_TO'
+  | 'BOOLEAN'
+  | 'SELECT_MULTIPLE'
+  | 'SELECT_ONE'
+
+export interface IDynamicInput {
+  id: string
+  type: HTMLInputTypeAttribute
+  label: string
+  required: boolean
+  valueAsNumber: boolean
+  minLength?: number
+  maxLength?: number
+  max?: number
+  min?: number
+  inputType: CustomFormInputType
+}
+
+export interface IProductFormInput {
+  id: string
+  type: HTMLInputTypeAttribute
+  label: string
+  required: boolean
+  valueAsNumber: boolean
+  minLength?: number
+  maxLength?: number
+  max?: number
+  min?: number
 }

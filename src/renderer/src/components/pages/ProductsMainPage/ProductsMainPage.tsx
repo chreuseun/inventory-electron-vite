@@ -1,9 +1,37 @@
+import { MyButton } from '@renderer/components/common'
 import { MainAppTemplate } from '@renderer/components/templates'
+import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
+import { navigateToScreen } from '@renderer/utils/navigate'
+import { useNavigate } from 'react-router'
 
 const ProductsMainPage: React.FC = () => {
+  const navigate = useNavigate()
+
   return (
     <MainAppTemplate headerText="Manage Products">
-      <div>Products List</div>
+      <div className="p-2 flex-grow flex flex-col">
+        <div className="mb-2 flex justify-between ">
+          <MyButton
+            label={`+ Product`}
+            onClick={() => {
+              navigateToScreen(navigate, {
+                replace: false,
+                path: APPLICATION_ROUTES.PRODUCT_FORM.path
+              })
+            }}
+          />
+        </div>
+        <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
+        <div className="border border-sectBorder  p-1 rounded-xs flex-grow">
+          {/* {materialsList.map((material) => {
+            return (
+              <div>
+                <pre>{JSON.stringify(material, null, 4)}</pre>
+              </div>
+            )
+          })} */}
+        </div>
+      </div>
     </MainAppTemplate>
   )
 }

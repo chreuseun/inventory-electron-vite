@@ -12,4 +12,8 @@ const navigateToScreen: (
   })
 }
 
-export { navigateToScreen }
+const navigateToGoBack: (navigate: NavigateFunction) => void = (navigate) => {
+  navigate(-1)
+}
+
+export { navigateToScreen, navigateToGoBack }
