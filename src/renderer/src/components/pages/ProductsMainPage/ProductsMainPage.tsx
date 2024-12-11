@@ -8,7 +8,7 @@ const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <MainAppTemplate headerText="Manage Products">
+    <MainAppTemplate headerText="Manage Products" className="flex flex-col">
       <div className="p-2 flex-grow flex flex-col">
         <div className="mb-2 flex justify-between ">
           <MyButton
@@ -22,7 +22,7 @@ const ProductsMainPage: React.FC = () => {
           />
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
-        <div className="border border-sectBorder  p-1 rounded-xs flex-grow">
+        <div className="border border-sectBorder p-1 rounded-xs flex-grow">
           {/* {materialsList.map((material) => {
             return (
               <div>

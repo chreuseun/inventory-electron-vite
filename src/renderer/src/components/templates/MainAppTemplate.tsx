@@ -14,8 +14,8 @@ const MainAppTemplate: React.FC<{
   }
 
   return (
-    <div className={`m-4 bg-background flex-grow rounded-lg p-4 ${className || ''}`}>
-      <div className="flex items-center mb-2 ">
+    <div className={`m-4 shadow-2xl bg-background flex-grow rounded-lg p-4 ${className || ''}`}>
+      <div className="flex items-center mb-2">
         {allowGoBack ? (
           <div
             onClick={onDefaultGoBack}

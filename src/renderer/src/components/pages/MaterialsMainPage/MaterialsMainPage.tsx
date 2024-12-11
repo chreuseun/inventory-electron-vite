@@ -7,24 +7,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import MaterialCardItem from './components/MaterialCardItem'
 
-const MaterialsMainPage: React.FC<{
-  id: number
-  reference_id: string
-  display_name: string
-  unit: string
-  format: string
-  price: number
-  category_id?: string // Optional if empty strings are allowed
-  sub_category_id?: string // Optional if empty strings are allowed
-  brand_id?: string // Optional if empty strings are allowed
-  alert_threshold: number
-  current_stock_quantity: number
-  stock_base_quantity?: number // Optional if not always present
-  created_at: string // ISO 8601 date format
-  created_by?: string // Optional if empty strings are allowed
-  updated_at?: string // Optional if sometimes not present
-  updated_by?: string | null // Optional and can be null
-}> = () => {
+const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<unknown[]>([])
   const navigate = useNavigate()
 
