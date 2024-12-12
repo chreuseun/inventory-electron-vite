@@ -19,6 +19,9 @@ const APPLICATION_ROUTES = {
   },
   PRODUCT_FORM: {
     path: '/product-form'
+  },
+  RECIPE_FORM: {
+    path: '/recipe-form'
   }
 }
 

@@ -25,6 +25,8 @@ const PublicRouter: React.FC = () => {
           <Route path={APPLICATION_ROUTES.MANAGE_REPORTS.path} element={<ReportsMainPage />} />
           <Route path={APPLICATION_ROUTES.MATERIAL_FORM.path} element={<MaterialFormPage />} />
           <Route path={APPLICATION_ROUTES.PRODUCT_FORM.path} element={<ProductFormPage />} />
+          <Route path={APPLICATION_ROUTES.RECIPE_FORM.path} element={<ProductFormPage />} />
+
           <Route
             path="*"
             element={<Navigate to={APPLICATION_ROUTES.MANAGE_MATERIALS.path} replace />}
