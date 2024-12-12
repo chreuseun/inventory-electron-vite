@@ -7,6 +7,7 @@ import RecipesMainPage from './RecipesMainPage'
 import ReportsMainPage from './ReportsMainPage'
 import MaterialFormPage from './MaterialFormPage'
 import ProductFormPage from './ProductFormPage'
+import RecipeFormPage from './RecipeFormPage'
 
 export {
   LoginPage,
@@ -16,5 +17,6 @@ export {
   RecipesMainPage,
   ReportsMainPage,
   MaterialFormPage,
-  ProductFormPage
+  ProductFormPage,
+  RecipeFormPage
 }

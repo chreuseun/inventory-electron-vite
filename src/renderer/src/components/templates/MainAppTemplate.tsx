@@ -19,7 +19,7 @@ const MainAppTemplate: React.FC<{
         {allowGoBack ? (
           <div
             onClick={onDefaultGoBack}
-            className="px-4 p-1 border mr-2 rounded-full cursor-pointer hover:bg-light text-light hover:text-background"
+            className="px-6 py-2 p-1 border mr-2 rounded-full cursor-pointer hover:bg-light text-light hover:text-background"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
