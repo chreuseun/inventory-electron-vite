@@ -21,6 +21,9 @@ module.exports = {
       },
       width: {
         perc48: '48%'
+      },
+      fontSize: {
+        px9: '9px' // Add font size 9px
       }
     }
   },

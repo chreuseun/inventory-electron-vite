@@ -1,5 +1,6 @@
 import { MyButton } from '@renderer/components/common'
 import { SearchableSelect } from '@renderer/components/common/CustomInputs'
+import { InputSearchableSelect } from '@renderer/components/common/formInputs'
 import { MainAppTemplate } from '@renderer/components/templates'
 import { RECIPE_FORM_INPUTS } from '@renderer/configs/forms/recipeFrom.config'
 import { ingredients } from '@renderer/configs/placeholders/testIngredients'
@@ -15,18 +16,28 @@ const RecipeFormPage: React.FC = () => {
   return (
     <MainAppTemplate headerText="Add Recipe" className="flex flex-col" allowGoBack>
       <div className="border-b-sectBorder border-b flex  flex-col overflow-auto gap-x-2 pb-2">
-        <SearchableSelect
+        <InputSearchableSelect
           className="text-dark"
           options={ingredients}
-          label="Materials"
+          label="Set Materials"
           multiple={true}
           onChange={(selectedMaterialIDs) => {
             console.log('---SELECTED MATERIALS: ', selectedMaterialIDs)
           }}
+          isQuantityIncluded
         />
-        {RECIPE_FORM_INPUTS.map((input) => {
+        <InputSearchableSelect
+          className="text-dark"
+          options={ingredients}
+          label="Set Materials"
+          multiple={false}
+          onChange={(selectedMaterialIDs) => {
+            console.log('---SELECTED MATERIALS: ', selectedMaterialIDs)
+          }}
+        />
+        {/* {RECIPE_FORM_INPUTS.map((input) => {
           return <pre key={input.id}>{JSON.stringify(input, null, 4)}</pre>
-        })}
+        })} */}
       </div>
       <MyButton label={'Save Recipe'} onClick={() => {}} className="mt-4 w-32" />
     </MainAppTemplate>

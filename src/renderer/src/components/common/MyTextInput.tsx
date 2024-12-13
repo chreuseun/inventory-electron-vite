@@ -6,6 +6,9 @@ interface IMyTextInput {
   type?: React.HTMLInputTypeAttribute
   className?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
+  value?: string | readonly string[] | number | undefined | null
+  autoFocus?: boolean
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
 const MyTextInput: React.FC<IMyTextInput> = ({
@@ -13,7 +16,10 @@ const MyTextInput: React.FC<IMyTextInput> = ({
   label,
   type,
   className,
-  onChange
+  onChange,
+  value,
+  autoFocus = false,
+  onKeyDown
 }: IMyTextInput) => {
   return (
     <div className={className}>
@@ -21,8 +27,11 @@ const MyTextInput: React.FC<IMyTextInput> = ({
       <input
         className="bg-light text-dark p-2 px-4 rounded-lg outline-border w-full"
         type={type}
+        autoFocus={autoFocus}
         placeholder={placeholder}
         onChange={onChange}
+        value={value || ''}
+        onKeyDown={onKeyDown}
       />
     </div>
   )
