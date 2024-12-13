@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS ${ISQLite3TableNames.PRODUCTS_TABLE} (
   display_name TEXT NOT NULL,
   is_disabled BOOLEAN DEFAULT 0,
   is_out_of_stock BOOLEAN DEFAULT 0,
-  current_recipe_id TEXT NOT NULL,
+  current_recipe_id TEXT,
   shelf_quantity INTEGER NOT NULL DEFAULT 0,
   base_warehouse_quantity INTEGER NOT NULL DEFAULT 0,
   current_warehouse_quantity INTEGER NOT NULL DEFAULT 0,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS ${ISQLite3TableNames.RECIPES_TABLE} (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   reference_id TEXT UNIQUE NOT NULL,
 
-  product_id TEXT NOT NULL,
+  product_id TEXT,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   is_active BOOLEAN DEFAULT 1,

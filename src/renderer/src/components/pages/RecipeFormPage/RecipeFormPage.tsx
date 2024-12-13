@@ -10,7 +10,8 @@ const RecipeFormPage: React.FC = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    control
   } = useForm()
 
   return (
@@ -26,15 +27,7 @@ const RecipeFormPage: React.FC = () => {
           }}
           isQuantityIncluded
         />
-        <InputSearchableSelect
-          className="text-dark"
-          options={ingredients}
-          label="Set Materials"
-          multiple={false}
-          onChange={(selectedMaterialIDs) => {
-            console.log('---SELECTED MATERIALS: ', selectedMaterialIDs)
-          }}
-        />
+
         {/* {RECIPE_FORM_INPUTS.map((input) => {
           return <pre key={input.id}>{JSON.stringify(input, null, 4)}</pre>
         })} */}
