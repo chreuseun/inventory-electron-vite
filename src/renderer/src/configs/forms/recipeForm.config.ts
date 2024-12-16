@@ -22,13 +22,22 @@ export const RECIPE_FORM_INPUTS: IDynamicInput[] = [
     maxLength: 45
   },
   {
-    id: 'is_active',
-    label: 'Is Active?',
+    id: 'materials',
+    label: 'Materials',
     type: 'text',
-    inputType: 'BOOLEAN',
+    inputType: 'SELECT_MULTIPLE',
     required: true,
-    valueAsNumber: false,
-    minLength: 2,
-    maxLength: 45
+    valueAsNumber: false
   }
+
+  // {
+  //   id: 'is_active',
+  //   label: 'Is Active?',
+  //   type: 'text',
+  //   inputType: 'BOOLEAN',
+  //   required: true,
+  //   valueAsNumber: false,
+  //   minLength: 2,
+  //   maxLength: 45
+  // }
 ]

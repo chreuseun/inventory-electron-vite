@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import InputSearchQuantityInput from './InputSearchQuantityInput'
 import { boolean } from 'zod'
@@ -18,8 +18,9 @@ interface IOption {
 interface ISelectInput extends ICommonInputProps {
   options: IOption[]
   multiple?: boolean
-  onChange?: (selectedValues: string[]) => void
+  onChange?: (selectedValues: { [id: string]: IOption }) => void
   isQuantityIncluded?: boolean
+  errorMessage?: null | string
 }
 
 type OptionChangeHandler = (args: IOption) => () => void
@@ -30,7 +31,7 @@ const SearchSelectItem: React.FC<{
   multiple: boolean
   option: IOption
   handleOptionChange: OptionCHangedFunc
-  selectedValues: string[]
+  selectedValues: { [id: string]: IOption }
   handleUpdateSelected: (args: IOption) => void
   isQuantityIncluded: boolean
 }> = ({
@@ -42,8 +43,6 @@ const SearchSelectItem: React.FC<{
   isQuantityIncluded
 }) => {
   const [showQTYInput, setShowQTYInput] = useState<boolean>(false)
-
-  // const isSelected = selectedValues.includes(option.value)
 
   const onPressUpdateQuantity: (quantity: number) => void = (quantity) => {
     handleUpdateSelected({
@@ -65,21 +64,18 @@ const SearchSelectItem: React.FC<{
       }
     }
 
+  const isSelected = !!selectedValues?.[option.value]
+
   return (
     <React.Fragment key={option.value}>
       <div
         className={`p-1 px-4 cursor-pointer flex items-center gap-2 ${
-          selectedValues.includes(option.value) ? 'bg-primary text-dark' : 'hover:bg-gray-200'
+          isSelected ? 'bg-primary text-dark' : 'hover:bg-gray-200'
         } w-40`}
         onClick={onClickItem(option)}
       >
         {multiple ? (
-          <input
-            type="checkbox"
-            className="cursor-pointer"
-            checked={selectedValues.includes(option.value)}
-            readOnly
-          />
+          <input type="checkbox" className="cursor-pointer" checked={isSelected} readOnly />
         ) : null}
         <span className="text-xs">{option.label}</span>
       </div>
@@ -101,34 +97,50 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
   multiple = false,
   className,
   onChange,
-  isQuantityIncluded
+  isQuantityIncluded,
+  errorMessage = null
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedValues, setSelectedValues] = useState<string[]>([])
   const [selectedOpts, setSelectedOpts] = useState<{
-    [key: string]: IOption
+    [id: string]: IOption
   }>({})
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  const onChangeHandler: (args: { [id: string]: IOption }) => void = (args: {
+    [id: string]: IOption
+  }) => {
+    if (onChange) {
+      onChange(args)
+    }
+  }
+
   const handleUpdateSelected: (args: IOption) => void = ({ value, label, quantity }) => {
-    let updatedValues: string[] = []
+    let updatedValues: {
+      [key: string]: IOption
+    } = {}
+
     if (multiple) {
-      if (selectedValues.includes(value) && !isQuantityIncluded) {
-        setSelectedOpts((prev) => {
+      if (!isQuantityIncluded) {
+        selectedOpts
+
+        setSelectedOpts((prev1) => {
+          const prev = { ...prev1 }
           if (prev?.[value]) {
             delete prev[value]
           }
+
+          updatedValues = prev
+
           return prev
         })
-
-        updatedValues = selectedValues.filter((v) => v !== value)
       } else {
-        updatedValues = [...selectedValues, value]
-        setSelectedOpts((prev) => {
-          return {
+        setSelectedOpts((prev1) => {
+          const prev = { ...prev1 }
+
+          const newOpts = {
             ...prev,
             [value]: {
               label,
@@ -136,16 +148,18 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
               ...(quantity ? { quantity } : {})
             }
           }
+          updatedValues = newOpts
+
+          return newOpts
         })
       }
     } else {
-      updatedValues = [value]
+      updatedValues = {
+        [value]: { value, label, quantity }
+      }
     }
 
-    if (onChange) {
-      setSelectedValues(updatedValues)
-      onChange(updatedValues)
-    }
+    onChangeHandler(updatedValues)
   }
   const handleOptionChange: (a: IOption) => void = ({ value, label, quantity }) => {
     if (isQuantityIncluded) {
@@ -160,21 +174,29 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
   }
 
   const onDelete: (option: IOption) => void = (option) => {
-    const { value } = option
-    const updatedValues = selectedValues.filter((v) => v !== value)
-    setSelectedValues(updatedValues)
-    setSelectedOpts((prev) => {
+    let selectedVals: {
+      [id: string]: IOption
+    } = {}
+
+    setSelectedOpts((prev1) => {
+      const prev = { ...prev1 }
+
       if (prev?.[option.value]) {
         delete prev[option.value]
       }
+
+      selectedVals = prev
+
       return prev
     })
+
+    onChangeHandler(selectedVals)
   }
 
   return (
     <div className={`border border-sectBorder ${className} p-2 shadow rounded-sm mb-2`}>
       {label ? <label className="text-light text-xs block">{label}</label> : null}
-      <div className="max-h-28 mb-2 text-light flex flex-col flex-wrap overflow-auto">
+      <div className="max-h-28 mb-1 text-light flex flex-col flex-wrap overflow-auto">
         {Object.values(selectedOpts).map((selectedMaterial) => (
           <span
             className="px-1 py-1 border-sectBorder text-px9"
@@ -205,13 +227,14 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
             key={option.value}
             multiple
             option={option}
-            selectedValues={selectedValues}
+            selectedValues={selectedOpts}
             handleOptionChange={handleOptionChange}
             handleUpdateSelected={handleUpdateSelected}
             isQuantityIncluded={isQuantityIncluded || false}
           />
         ))}
       </div>
+      {errorMessage ? <div className="text-error text-xs">{errorMessage}</div> : null}
     </div>
   )
 }

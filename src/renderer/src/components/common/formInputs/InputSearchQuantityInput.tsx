@@ -20,10 +20,6 @@ const InputSearchQuantityInput: React.FC<IInputSearchQuantityInput> = ({
 }) => {
   const [inputValue, setInputValue] = useState<null | number>(null)
 
-  useEffect(() => {
-    console.log('-- itemName: ', itemName)
-  }, [])
-
   const onPressCTA: FuncVoid = () => {
     if ((inputValue || 0) > 0 && !!inputValue) {
       onProcessQuantity(inputValue)
