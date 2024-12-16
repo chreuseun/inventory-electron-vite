@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import MyTextInput from '../MyTextInput'
 import MyButton from '../MyButton'
 import { FuncVoid } from '@renderer/interfaces/common.interface'
-import { ChangeEventHandler, useEffect, useState } from 'react'
+import { ChangeEventHandler, useState } from 'react'
 import { showToast } from '@renderer/utils/reactToastify'
 
 interface IInputSearchQuantityInput {
