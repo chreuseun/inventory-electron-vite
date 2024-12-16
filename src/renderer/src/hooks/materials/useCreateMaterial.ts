@@ -49,7 +49,9 @@ export interface ICreateMaterialItem {
   updated_by: string | null
 }
 
-type IRunCreateMaterial = (arg: { newMaterial: MaterialFormData }) => Promise<void>
+type IRunCreateMaterial = (arg: {
+  newMaterial: MaterialFormData | MaterialFormData[]
+}) => Promise<void>
 
 interface IRunGetMaterialsListResult {
   success: boolean
@@ -73,17 +75,29 @@ const useCreateMaterial: IUseCreateMaterialsList = ({ onCompleted, onError }) =>
   const runCreateMaterial: IRunCreateMaterial = async ({ newMaterial }) => {
     setLoading(true)
 
-    const params: ICreateMaterialItem[] = [
-      {
-        ...newMaterial,
-        reference_id: newMaterial.display_name.toLowerCase(),
-        category_id: '',
-        sub_category_id: '',
-        brand_id: '',
-        updated_by: null,
-        created_by: ''
-      }
-    ]
+    const params: ICreateMaterialItem[] = Array.isArray(newMaterial)
+      ? newMaterial.map((i) => {
+          return {
+            ...i,
+            reference_id: i.display_name.toLowerCase(),
+            category_id: '',
+            sub_category_id: '',
+            brand_id: '',
+            updated_by: null,
+            created_by: ''
+          }
+        })
+      : [
+          {
+            ...newMaterial,
+            reference_id: newMaterial.display_name.toLowerCase(),
+            category_id: '',
+            sub_category_id: '',
+            brand_id: '',
+            updated_by: null,
+            created_by: ''
+          }
+        ]
 
     const response = (await executeSQLiteQuery({
       sql: INSERT_ONE_MATERIAL,

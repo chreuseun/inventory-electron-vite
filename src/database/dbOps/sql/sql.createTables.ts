@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS ${ISQLite3TableNames.MATERIALS} (
   reference_id TEXT UNIQUE NOT NULL,
 
   display_name TEXT NOT NULL,
-  unit TEXT NOT NULL,
-  format TEXT NOT NULL,
+  unit TEXT NOT NULL, -- gr, 100 grams, 100 ml
+  format TEXT NOT NULL, -- ex. sachet bottle , L , XL, mid, 
 
   price REAL NOT NULL DEFAULT 0.00,
 
