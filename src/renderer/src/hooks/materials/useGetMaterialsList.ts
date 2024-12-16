@@ -6,8 +6,6 @@ SELECT
     *
 FROM 
   materials
-
-LIMIT 30
 `
 
 type IRunGetMaterialsList = (args: { displayName: string | null }) => Promise<void>

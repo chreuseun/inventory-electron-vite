@@ -3,6 +3,7 @@ import { MainAppTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useNavigate } from 'react-router'
+import { ProductListItem } from './components'
 
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
@@ -22,7 +23,8 @@ const ProductsMainPage: React.FC = () => {
           />
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
-        <div className="border border-sectBorder p-1 rounded-xs flex-grow">
+        <div className="border border-sectBorder p-1 rounded-xs flex-grow flex">
+          <ProductListItem />
           {/* {materialsList.map((material) => {
             return (
               <div>
