@@ -10,7 +10,12 @@ const MySidebar: React.FC = () => {
   return (
     <React.Fragment>
       {showSideBar ? (
-        <div className={`flex bg-background w-52 flex-shrink-0  flex-col`}>
+        <div
+          onMouseLeave={() => {
+            setShowSidebar(false)
+          }}
+          className={`flex bg-background w-52 flex-shrink-0  flex-col`}
+        >
           <div className="h-32 mb-4 rounded-full text-sm text-white">{pathname}</div>
 
           <div className="border flex-grow overflow-y-auto">
@@ -50,7 +55,12 @@ const MySidebar: React.FC = () => {
           >{`<< Hide Sidebar `}</div>
         </div>
       ) : (
-        <div className="bg-background">
+        <div
+          className="bg-background"
+          onMouseEnter={() => {
+            setShowSidebar(true)
+          }}
+        >
           <div
             onClick={() => {
               setShowSidebar(true)
