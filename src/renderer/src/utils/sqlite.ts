@@ -9,6 +9,14 @@ interface IExecuteSQLiteQuery {
   action: IRendererDBAction
 }
 
+export interface ISqliteBulkInsertResponse {
+  success: boolean
+  error: string | null
+  result: {
+    insertedCount: number
+  }
+}
+
 const executeSQLiteQuery: (args: IExecuteSQLiteQuery) => Promise<{
   success: boolean
   error: string | null

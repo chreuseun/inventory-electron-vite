@@ -17,15 +17,7 @@
   updated_by TEXT DEFAULT NULL
 */
 
-export interface IDTOProduct {
-  reference_id: string
-  display_name: string
-  current_recipe_id: string
-  shelf_quantity: number
-  base_warehouse_quantity: number
-  alert_threshold: number
-  created_by: string
-}
+import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
 
 const testProducts: IDTOProduct[] = [
   {
@@ -35,7 +27,8 @@ const testProducts: IDTOProduct[] = [
     shelf_quantity: 30,
     base_warehouse_quantity: 150,
     alert_threshold: 20,
-    created_by: 'system'
+    created_by: 'system',
+    current_warehouse_quantity: 200
   },
   {
     reference_id: 'Spaghetti_Bolognese',
@@ -44,7 +37,8 @@ const testProducts: IDTOProduct[] = [
     shelf_quantity: 30,
     base_warehouse_quantity: 150,
     alert_threshold: 20,
-    created_by: 'system'
+    created_by: 'system',
+    current_warehouse_quantity: 200
   },
   {
     reference_id: 'Chicken_Adobo',
@@ -53,7 +47,8 @@ const testProducts: IDTOProduct[] = [
     shelf_quantity: 30,
     base_warehouse_quantity: 150,
     alert_threshold: 20,
-    created_by: 'system'
+    created_by: 'system',
+    current_warehouse_quantity: 200
   },
   {
     reference_id: 'Vegetable_Stir_Fry',
@@ -62,7 +57,8 @@ const testProducts: IDTOProduct[] = [
     shelf_quantity: 30,
     base_warehouse_quantity: 150,
     alert_threshold: 20,
-    created_by: 'system'
+    created_by: 'system',
+    current_warehouse_quantity: 200
   },
   {
     reference_id: 'Beef_Steak',
@@ -71,7 +67,8 @@ const testProducts: IDTOProduct[] = [
     shelf_quantity: 30,
     base_warehouse_quantity: 150,
     alert_threshold: 20,
-    created_by: 'system'
+    created_by: 'system',
+    current_warehouse_quantity: 200
   }
 ]
 
