@@ -1,4 +1,4 @@
-import { executeSQLiteQuery } from '@renderer/utils/sqlite'
+import { executeSQLiteQuery, ISqliteListResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
 const SELECT_ALL_MATERIALS = `
@@ -29,14 +29,14 @@ export type IDTOMaterialItem = {
   updated_by?: string | null // Optional and can be null
 }
 
-interface IRunGetMaterialsListResult {
+interface IRunGetMaterialsListResult<T> {
   success: boolean
   error: string | null
-  result: IDTOMaterialItem[]
+  result: ISqliteListResponse<T>[]
 }
 
 type IUseGetMaterialsList = (args: {
-  onCompleted?: (data: IRunGetMaterialsListResult) => void
+  onCompleted?: <T>(data: IRunGetMaterialsListResult<T>) => void
   onError?: (err: string) => void
 }) => {
   loading: boolean
@@ -54,7 +54,7 @@ const useGetMaterialsList: IUseGetMaterialsList = ({ onCompleted, onError }) => 
       action: 'list',
       params: [],
       operationName: 'useGetMaterialsList'
-    })) as IRunGetMaterialsListResult
+    })) as IRunGetMaterialsListResult<IDTOMaterialItem>
 
     if (onCompleted) {
       onCompleted(response)
