@@ -1,3 +1,4 @@
 import ProductListItem from './ProductListItem'
+import ProductsInventoryList from './ProductsInventoryList'
 
-export { ProductListItem }
+export { ProductListItem, ProductsInventoryList }

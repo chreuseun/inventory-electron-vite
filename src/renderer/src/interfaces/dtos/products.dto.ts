@@ -14,6 +14,6 @@ export interface IDTOProduct {
   reference_id: string
   display_name: string
   shelf_quantity: string
-  current_warehose_quantity: number
+  current_warehouse_quantity: number
   alert_threshold: number
 }

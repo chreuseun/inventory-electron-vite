@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { useCreateProducts, useGetProductsInventory } from '@renderer/hooks/products'
 import { testProducts } from '@renderer/configs/placeholders/testProducts'
 import React, { useEffect } from 'react'
+import { ProductsInventoryList } from './components'
 
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
@@ -43,14 +44,15 @@ const ProductsMainPage: React.FC = () => {
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
         <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
-          {products.map((product) => {
+          <ProductsInventoryList products={products} />
+          {/* {products.map((product) => {
             return (
               <React.Fragment key={product.id}>
                 <pre>{JSON.stringify(product, null, 4)}</pre>
               </React.Fragment>
             )
-          })}
-          {/* <ProductListItem /> */}
+          })} */}
+
           {/* {materialsList.map((material) => {
             return (
               <div>
