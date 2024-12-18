@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
+import { MyLoadingModal } from '../common'
 
 const MainAppTemplate: React.FC<{
   children: React.ReactNode
   headerText?: string
   className?: string
   allowGoBack?: boolean
-}> = ({ children, headerText, className, allowGoBack }) => {
+  loading?: boolean
+}> = ({ children, headerText, className, allowGoBack, loading }) => {
   const navigation = useNavigate()
 
   const onDefaultGoBack: () => void = () => {
@@ -40,6 +42,7 @@ const MainAppTemplate: React.FC<{
         {headerText ? <h1 className="font-bold text-secondaryText text-sm">{headerText}</h1> : null}
       </div>
       {children}
+      <MyLoadingModal isOpen={loading} />
     </div>
   )
 }

@@ -4,12 +4,26 @@ import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useNavigate } from 'react-router'
 import { ProductListItem } from './components'
+import { useCreateProducts } from '@renderer/hooks/products'
+import { testProducts } from '@renderer/configs/placeholders/testProducts'
 
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
 
+  const { runCreateProducts, isCreatingProducts } = useCreateProducts()
+
+  const onRunTextProducts: () => void = () => {
+    runCreateProducts({
+      products: testProducts
+    })
+  }
+
   return (
-    <MainAppTemplate headerText="Manage Products" className="flex flex-col">
+    <MainAppTemplate
+      headerText="Manage Products"
+      className="flex flex-col"
+      loading={isCreatingProducts}
+    >
       <div className="p-2 flex-grow flex flex-col">
         <div className="mb-2 flex justify-between ">
           <MyButton
@@ -21,6 +35,7 @@ const ProductsMainPage: React.FC = () => {
               })
             }}
           />
+          <MyButton label={`Add Test Products`} onClick={onRunTextProducts} />
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
         <div className="border border-sectBorder p-1 rounded-xs flex-grow flex">
