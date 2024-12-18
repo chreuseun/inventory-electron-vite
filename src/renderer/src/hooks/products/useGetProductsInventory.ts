@@ -23,12 +23,17 @@ type IUseGetProductsInventory = (args?: {
 }) => {
   fetchingProducts: boolean
   runGetProductsInventory: IRunGetProductsInventory
+  products: IDTOProduct[]
 }
 
 const useGetProductsInventory: IUseGetProductsInventory = (args) => {
   const [fetchingProducts, setFetchingProducts] = useState(false)
+  const [products, setProducts] = useState<IDTOProduct[]>([])
 
   const handleCompleted: (data: ISqliteListResponse<IDTOProduct>) => void = (data) => {
+    const { result } = data
+    setProducts(result)
+
     if (args?.onCompleted) {
       args.onCompleted(data)
     }
@@ -64,7 +69,8 @@ const useGetProductsInventory: IUseGetProductsInventory = (args) => {
 
   return {
     fetchingProducts,
-    runGetProductsInventory
+    runGetProductsInventory,
+    products
   }
 }
 

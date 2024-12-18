@@ -1,25 +1,6 @@
-/*
- id INTEGER PRIMARY KEY AUTOINCREMENT,
-  reference_id TEXT UNIQUE NOT NULL,
+import { IDTOProductPayload } from '@renderer/interfaces/dtos/products.dto'
 
-  display_name TEXT NOT NULL,
-  is_disabled BOOLEAN DEFAULT 0,
-  is_out_of_stock BOOLEAN DEFAULT 0,
-  current_recipe_id TEXT,
-  shelf_quantity INTEGER NOT NULL DEFAULT 0,
-  base_warehouse_quantity INTEGER NOT NULL DEFAULT 0,
-  current_warehouse_quantity INTEGER NOT NULL DEFAULT 0,
-  alert_threshold INTEGER NOT NULL DEFAULT 5,
-
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by TEXT NOT NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_by TEXT DEFAULT NULL
-*/
-
-import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
-
-const testProducts: IDTOProduct[] = [
+const testProducts: IDTOProductPayload[] = [
   {
     reference_id: 'Garlic_Butter_Shrimp',
     display_name: 'Garlic Butter Shrimp',

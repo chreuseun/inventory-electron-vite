@@ -3,14 +3,18 @@ import { MainAppTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useNavigate } from 'react-router'
-import { ProductListItem } from './components'
-import { useCreateProducts } from '@renderer/hooks/products'
+import { useCreateProducts, useGetProductsInventory } from '@renderer/hooks/products'
 import { testProducts } from '@renderer/configs/placeholders/testProducts'
+import React, { useEffect } from 'react'
 
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
-
+  const { fetchingProducts, runGetProductsInventory, products } = useGetProductsInventory()
   const { runCreateProducts, isCreatingProducts } = useCreateProducts()
+
+  useEffect(() => {
+    runGetProductsInventory()
+  }, [])
 
   const onRunTextProducts: () => void = () => {
     runCreateProducts({
@@ -22,9 +26,9 @@ const ProductsMainPage: React.FC = () => {
     <MainAppTemplate
       headerText="Manage Products"
       className="flex flex-col"
-      loading={isCreatingProducts}
+      loading={isCreatingProducts || fetchingProducts}
     >
-      <div className="p-2 flex-grow flex flex-col">
+      <div className="p-2 flex-grow flex flex-col overflow-auto">
         <div className="mb-2 flex justify-between ">
           <MyButton
             label={`+ Product`}
@@ -38,8 +42,15 @@ const ProductsMainPage: React.FC = () => {
           <MyButton label={`Add Test Products`} onClick={onRunTextProducts} />
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
-        <div className="border border-sectBorder p-1 rounded-xs flex-grow flex">
-          <ProductListItem />
+        <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
+          {products.map((product) => {
+            return (
+              <React.Fragment key={product.id}>
+                <pre>{JSON.stringify(product, null, 4)}</pre>
+              </React.Fragment>
+            )
+          })}
+          {/* <ProductListItem /> */}
           {/* {materialsList.map((material) => {
             return (
               <div>

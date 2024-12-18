@@ -1,4 +1,4 @@
-import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
+import { IDTOProductPayload } from '@renderer/interfaces/dtos/products.dto'
 import { showToast } from '@renderer/utils/reactToastify'
 import { executeSQLiteQuery, ISqliteBulkInsertResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
@@ -25,7 +25,7 @@ const INSERT_PRODUCTS = `
     )
 `
 
-type IRunCreateProducts = (args: { products: IDTOProduct[] }) => Promise<void>
+type IRunCreateProducts = (args: { products: IDTOProductPayload[] }) => Promise<void>
 
 type IUseCreateProducts = (args?: {
   onCompleted?: (response: ISqliteBulkInsertResponse) => void
