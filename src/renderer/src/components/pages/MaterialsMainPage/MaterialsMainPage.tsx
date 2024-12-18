@@ -3,7 +3,7 @@ import { MainAppTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { useCreateMaterial, useGetMaterialsList } from '@renderer/hooks/materials'
 import { navigateToScreen } from '@renderer/utils/navigate'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import MaterialCardItem from './components/MaterialCardItem'
 import { ingredients } from '@renderer/configs/placeholders/testIngredients'
@@ -33,6 +33,10 @@ const MaterialsMainPage: React.FC = () => {
     }
   })
 
+  useEffect(() => {
+    runGetMaterialsList({ displayName: 'name' })
+  }, [])
+
   const isListEmpty = !materialsList.length
 
   return (
@@ -48,7 +52,7 @@ const MaterialsMainPage: React.FC = () => {
               })
             }}
           />
-          <div>
+          {/* <div>
             <MyButton
               className="mr-2"
               label={`Test Bulk Upload Materials`}
@@ -72,13 +76,7 @@ const MaterialsMainPage: React.FC = () => {
                 runCreateMaterial({ newMaterial: formatTestIngredients })
               }}
             />
-            <MyButton
-              label={`Reload List`}
-              onClick={() => {
-                runGetMaterialsList({ displayName: 'name' })
-              }}
-            />
-          </div>
+          </div> */}
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Materials List</div>
         <MyTextInput

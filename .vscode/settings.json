@@ -8,5 +8,13 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["AUTOINCREMENT", "extralight", "ICUSTOM", "mychannel", "perc", "Toastify"]
+  "cSpell.words": [
+    "Adobo",
+    "AUTOINCREMENT",
+    "extralight",
+    "ICUSTOM",
+    "mychannel",
+    "perc",
+    "Toastify"
+  ]
 }
