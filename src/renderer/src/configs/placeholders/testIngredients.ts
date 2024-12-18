@@ -548,5 +548,71 @@ export const ingredients = [
     sub_category_id: '2',
     brand_id: 'AX',
     alert_threshold: 4
+  },
+  {
+    value: '100',
+    label: 'Shrimp',
+    unit: 'kg',
+    format: 0.25,
+    price: 30.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
+  },
+  {
+    value: '101',
+    label: 'Butter',
+    unit: 'g',
+    format: 80,
+    price: 30.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
+  },
+  {
+    value: '102',
+    label: 'Pasta',
+    unit: 'g',
+    format: 250,
+    price: 30.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
+  },
+  {
+    value: '103',
+    label: 'Soy Sauce',
+    unit: 'ml',
+    format: 100,
+    price: 89.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
+  },
+  {
+    value: '103',
+    label: 'Vinegar',
+    unit: 'ml',
+    format: 200,
+    price: 67.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
+  },
+  {
+    value: '104',
+    label: 'Ground Beef',
+    unit: 'g',
+    format: 250,
+    price: 145.0,
+    category_id: '8',
+    sub_category_id: '2',
+    brand_id: 'AX',
+    alert_threshold: 4
   }
 ]
