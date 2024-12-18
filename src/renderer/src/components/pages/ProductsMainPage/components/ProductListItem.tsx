@@ -3,7 +3,7 @@ import React from 'react'
 
 const ProductListItem: React.FC<{ product: IDTOProduct }> = ({ product }) => {
   const renderRow: (arg: { renderRow: string | JSX.Element }) => JSX.Element = ({ renderRow }) => {
-    return <td className="px-2 py-2 border">{renderRow}</td>
+    return <td className="px-2 py-2">{renderRow}</td>
   }
 
   const {
@@ -12,7 +12,7 @@ const ProductListItem: React.FC<{ product: IDTOProduct }> = ({ product }) => {
     current_warehouse_quantity: currentQty
   } = product
   return (
-    <tr className="border-b-2 hover:bg-sectBorder ">
+    <tr className="hover:bg-sectBorder border-collapse border-0">
       {renderRow({ renderRow: displayName })}
       {renderRow({ renderRow: `${currentQty}` })}
       {renderRow({ renderRow: shelfQTY })}

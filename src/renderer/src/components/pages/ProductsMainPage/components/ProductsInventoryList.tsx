@@ -7,7 +7,7 @@ const COL_NAMES = ['Product', 'Qty.', 'Shelf Qty.']
 const ProductsInventoryList: React.FC<{ products: IDTOProduct[] }> = ({ products }) => {
   const renderColumn: (arg: { name: string }) => JSX.Element = ({ name }) => {
     return (
-      <th key={name} className="px-4 py-2 border  font-bold text-xs">
+      <th key={name} className="px-4 py-2 font-bold text-xs">
         {name}
       </th>
     )
@@ -15,13 +15,11 @@ const ProductsInventoryList: React.FC<{ products: IDTOProduct[] }> = ({ products
 
   return (
     <div className="flex flex-col flex-grow">
-      <table className="min-w-full table-auto border-sectBorder">
+      <table className="min-w-full table-auto border-collapse border-0">
         <thead className="bg-gray-800 text-white">
-          <tr className="border-b-2">
-            {COL_NAMES.map((colName) => renderColumn({ name: colName }))}
-          </tr>
+          <tr>{COL_NAMES.map((colName) => renderColumn({ name: colName }))}</tr>
         </thead>
-        <tbody className="text-xs">
+        <tbody className="text-xs border-collapse border-0">
           {products.map((product) => (
             <ProductListItem key={product.id} product={product} />
           ))}
