@@ -28,8 +28,8 @@ const INSERT_PRODUCTS = `
 type IRunCreateProducts = (args: { products: IDTOProduct[] }) => Promise<void>
 
 type IUseCreateProducts = (args?: {
-  onCompleted: (response: ISqliteBulkInsertResponse) => void
-  onError: (error: string) => void
+  onCompleted?: (response: ISqliteBulkInsertResponse) => void
+  onError?: (error: string) => void
 }) => {
   isCreatingProducts: boolean
   runCreateProducts: IRunCreateProducts
