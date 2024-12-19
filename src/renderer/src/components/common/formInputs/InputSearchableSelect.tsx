@@ -213,7 +213,7 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <div className="bg-light border rounded-sm max-h-20 overflow-y-auto p-2 flex flex-wrap">
+      <div className="bg-light border rounded-sm max-h-40 overflow-y-auto p-2 flex flex-wrap">
         {!filteredOptions.length ? <div>No materials found</div> : null}
         {filteredOptions.map((option) => (
           <SearchSelectItem

@@ -1,5 +1,9 @@
 import { showToast } from '@renderer/utils/reactToastify'
-import { executeSQLiteQuery, ISqliteCreateResponse } from '@renderer/utils/sqlite'
+import {
+  executeSQLiteQuery,
+  ISqliteBulkInsertResponse,
+  ISqliteCreateResponse
+} from '@renderer/utils/sqlite'
 import { useState } from 'react'
 const CREATE_NEW_RECIPE = `
 INSERT INTO recipes (
@@ -26,7 +30,7 @@ INSERT INTO recipe_items (
     is_active
 )
 
-VALUE (
+VALUES (
     @recipe_id,
     @material_id,
     @quantity_required,
@@ -35,10 +39,14 @@ VALUE (
 )
 `
 
-type IRunCreateRecipe = (args: { name: string; description: string }) => Promise<void>
+type IRunCreateRecipe = (args: {
+  name: string
+  description: string
+  recipeItems: { value: string; quantity: number }[]
+}) => Promise<void>
 
 type IUseCreateRecipe = (args?: {
-  onCompleted?: (data: ISqliteCreateResponse) => void
+  onCompleted?: (data: ISqliteBulkInsertResponse) => void
   onError?: (err: string) => void
 }) => {
   creatingRecipe: boolean
@@ -59,11 +67,10 @@ const useCreateRecipe: IUseCreateRecipe = (args = {}) => {
     }
   }
 
-  const runCreateRecipe: IRunCreateRecipe = async ({ name, description }) => {
+  const runCreateRecipe: IRunCreateRecipe = async ({ name, description, recipeItems }) => {
     setCreatingRecipe(true)
 
     try {
-      // step 1: Create the Recipe
       const params = [
         {
           reference_id: name.toLowerCase(),
@@ -80,26 +87,40 @@ const useCreateRecipe: IUseCreateRecipe = (args = {}) => {
         action: 'create'
       })) as ISqliteCreateResponse
 
+      const newRecipeID = response?.result?.lastInsertRowid
+
       if (response.error) {
-        handleError(response.error)
+        throw new Error(response.error)
+      } else if (!newRecipeID) {
+        throw new Error(`No recipeID found`)
       }
 
-      // else {
-      //   if (args?.onCompleted) {
-      //     args.onCompleted(response)
-      //   }
-      // }
-
-      // Step 2 get the new recipe id
-      const newRecipeID = response?.result?.lastInsertRowid
-      console.log('-- NEW RECIPE ID: ', newRecipeID)
-
-      await executeSQLiteQuery({
+      const resultRecipeItems = (await executeSQLiteQuery({
         sql: CREATE_NEW_RECIPE_ITEM,
         action: 'bulkUpsert',
-        params: [],
-        operationName: 'useCreateRecipe_add_recipe_item'
-      })
+        params: recipeItems.map(({ quantity, value }) => {
+          return {
+            recipe_id: Number(newRecipeID).toFixed(),
+            material_id: value,
+            quantity_required: quantity,
+            created_by: 'admin'
+          }
+        }),
+        operationName: 'useCreateRecipe_AddRecipeItems'
+      })) as ISqliteBulkInsertResponse
+
+      if (resultRecipeItems.error) {
+        throw new Error(resultRecipeItems.error)
+      } else {
+        showToast({
+          type: 'success',
+          message: `New Recipe Added: ${resultRecipeItems.result.insertedCount} items for recipe ${name}`
+        })
+      }
+
+      if (args?.onCompleted) {
+        args.onCompleted(resultRecipeItems)
+      }
     } catch (error) {
       handleError(`${error}`)
     }

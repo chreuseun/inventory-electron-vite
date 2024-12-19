@@ -55,14 +55,22 @@ const RecipeFormPage: React.FC = () => {
   }, [])
 
   const onSubmit: (formData: FieldValues) => void = (formData) => {
-    const { description, name } = formData as {
+    const { description, name, materials } = formData as {
       description: string
       name: string
+      materials: {
+        [materialId: string]: {
+          quantity: number
+          value: string
+        }
+      }
     }
 
+    console.log('formData:', { formData, materials: Object.values(materials) })
     runCreateRecipe({
       name,
-      description
+      description,
+      recipeItems: Object.values(materials)
     })
   }
 
