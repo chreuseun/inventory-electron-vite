@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 const INSERT_PRODUCTS = `
     INSERT INTO products (
+        id
         reference_id,
         display_name,
         current_recipe_id,
@@ -14,6 +15,7 @@ const INSERT_PRODUCTS = `
         alert_threshold,
         created_by
     ) VALUES (
+        @id
         @reference_id,
         @display_name,
         @current_recipe_id,

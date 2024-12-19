@@ -34,6 +34,7 @@ const INSERT_ONE_MATERIAL = `
 );
 `
 export interface ICreateMaterialItem {
+  id?: string
   reference_id: string
   display_name: string
   unit: string
@@ -98,6 +99,8 @@ const useCreateMaterial: IUseCreateMaterialsList = ({ onCompleted, onError }) =>
             created_by: ''
           }
         ]
+
+    console.log('--- MATERIALS: ', params)
 
     const response = (await executeSQLiteQuery({
       sql: INSERT_ONE_MATERIAL,

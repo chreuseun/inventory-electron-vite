@@ -51,7 +51,7 @@ const ProductEditQuantityModal: React.FC<{ product: IDTOProduct; onClose?: () =>
           <div className="flex-row flex">
             {renderMinusButton()}
             <input
-              className="p-2 border-secondaryText border-4 text- w-32 text-center text-xl font-bold rounded-md"
+              className="p-2 pl-4 border-secondaryText border-4 text- w-32 text-center text-xl font-bold rounded-md"
               type="number"
               value={warehouseQTY}
               onChange={(e) => setWarehouseQTY(parseInt(e.target.value))}

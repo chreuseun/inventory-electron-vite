@@ -1,10 +1,10 @@
 import { SIDEBAR_DISPLAY_ARRAY } from '@renderer/configs/sidebar.config'
 import React, { useState } from 'react'
-import { NavLink, useLocation } from 'react-router'
+import { NavLink } from 'react-router'
+
+import appIcon from '@renderer/assets/icon.png'
 
 const MySidebar: React.FC = () => {
-  const { pathname } = useLocation()
-
   const [showSideBar, setShowSidebar] = useState(false)
 
   return (
@@ -14,13 +14,14 @@ const MySidebar: React.FC = () => {
           onMouseLeave={() => {
             setShowSidebar(false)
           }}
-          className={`flex bg-background w-52 flex-shrink-0  flex-col`}
+          className={`flex bg-background w-52 flex-shrink-0  flex-col items-center transition-transform duration-300 translate-x-300`}
         >
-          <div className="h-32 mb-4 rounded-full text-sm text-white">{pathname}</div>
-
-          <div className="border flex-grow overflow-y-auto">
+          <div className="h-24 border w-24 overflow-hidden rounded-full m-3">
+            <img src={appIcon} className="w-full h-full" />
+          </div>
+          <div className="flex-grow overflow-y-auto w-full">
             {SIDEBAR_DISPLAY_ARRAY.map((items) => {
-              const { label, path } = items
+              const { label, path, icon: SideBarIcon } = items
 
               return (
                 <NavLink to={path} key={label}>
@@ -29,17 +30,8 @@ const MySidebar: React.FC = () => {
                       <div
                         className={`flex flex-row items-center mb-1 border-gray-400 px-4 py-4 ${isActive ? 'bg-secondaryBackground  text-white border-b-2' : 'hover:bg-dark'} cursor-pointer text-light`}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6 mr-2"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M3 3h4v4H3V3zm0 6h4v4H3v-4zm0 6h4v4H3v-4zm6-12h8v4h-8V3zm0 6h8v4h-8V9zm0 6h8v4h-8v-4z" />
-                        </svg>
-
-                        <span className="t  ext-sm"> {label}</span>
+                        <SideBarIcon className="mr-1" />
+                        <span className="text-xs"> {label}</span>
                       </div>
                     )
                   }}
@@ -48,7 +40,7 @@ const MySidebar: React.FC = () => {
             })}
           </div>
           <div
-            className="cursor-pointer p-2 text-right font-bold text-xs"
+            className="cursor-pointer p-2 text-right font-bold text-xs w-full"
             onClick={() => {
               setShowSidebar(false)
             }}

@@ -1,13 +1,14 @@
 import { MyButton, MyTextInput } from '@renderer/components/common'
 import { MainAppTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
-import { useGetMaterialsList } from '@renderer/hooks/materials'
+import { useCreateMaterial, useGetMaterialsList } from '@renderer/hooks/materials'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import MaterialCardItem from './components/MaterialCardItem'
 import { IDTOMaterialItem } from '@renderer/hooks/materials/useGetMaterialsList'
 import { showToast } from '@renderer/utils/reactToastify'
+import { ingredients } from '@renderer/configs/placeholders/testIngredients'
 
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<IDTOMaterialItem[]>([])
@@ -25,8 +26,19 @@ const MaterialsMainPage: React.FC = () => {
     }
   })
 
+  const { runCreateMaterial } = useCreateMaterial({
+    onCompleted: (response) => {},
+    onError: (error) => {
+      showToast({ type: 'error', message: error })
+    }
+  })
+
   useEffect(() => {
     runGetMaterialsList({ displayName: 'name' })
+
+    runCreateMaterial({
+      newMaterial: ingredients
+    })
   }, [])
 
   const isListEmpty = !materialsList.length

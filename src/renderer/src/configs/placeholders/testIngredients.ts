@@ -583,7 +583,7 @@ export const ingredients = [
     alert_threshold: 4
   },
   {
-    value: '103',
+    value: '112',
     label: 'Soy Sauce',
     unit: 'ml',
     format: 100,
