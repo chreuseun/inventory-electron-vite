@@ -42,7 +42,7 @@ const MainAppTemplate: React.FC<{
         {headerText ? <h1 className="font-bold text-secondaryText text-sm">{headerText}</h1> : null}
       </div>
       {children}
-      <MyLoadingModal isOpen={loading} />
+      <MyLoadingModal show={!!loading} />
     </div>
   )
 }
@@ -51,7 +51,8 @@ MainAppTemplate.propTypes = {
   children: PropTypes.element,
   headerText: PropTypes.string,
   className: PropTypes.string,
-  allowGoBack: PropTypes.bool
+  allowGoBack: PropTypes.bool,
+  loading: PropTypes.bool
 }
 
 export default MainAppTemplate

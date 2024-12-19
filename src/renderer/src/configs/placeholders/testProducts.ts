@@ -50,6 +50,36 @@ const testProducts: IDTOProductPayload[] = [
     alert_threshold: 20,
     created_by: 'system',
     current_warehouse_quantity: 200
+  },
+  {
+    reference_id: 'beef_brocoli',
+    display_name: 'Beef Brocoli',
+    current_recipe_id: '',
+    shelf_quantity: 25,
+    base_warehouse_quantity: 150,
+    alert_threshold: 20,
+    created_by: 'system',
+    current_warehouse_quantity: 200
+  },
+  {
+    reference_id: 'chop_suey',
+    display_name: 'Chop Suey',
+    current_recipe_id: '',
+    shelf_quantity: 25,
+    base_warehouse_quantity: 150,
+    alert_threshold: 20,
+    created_by: 'system',
+    current_warehouse_quantity: 200
+  },
+  {
+    reference_id: 'chicken_asparagus',
+    display_name: 'Chicken Asparagus',
+    current_recipe_id: '',
+    shelf_quantity: 25,
+    base_warehouse_quantity: 150,
+    alert_threshold: 20,
+    created_by: 'system',
+    current_warehouse_quantity: 200
   }
 ]
 

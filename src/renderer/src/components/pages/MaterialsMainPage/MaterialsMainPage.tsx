@@ -1,14 +1,13 @@
 import { MyButton, MyTextInput } from '@renderer/components/common'
 import { MainAppTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
-import { useCreateMaterial, useGetMaterialsList } from '@renderer/hooks/materials'
+import { useGetMaterialsList } from '@renderer/hooks/materials'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import MaterialCardItem from './components/MaterialCardItem'
-import { ingredients } from '@renderer/configs/placeholders/testIngredients'
-import { MaterialFormData } from '@renderer/hooks/reactForms/useMaterialForm'
 import { IDTOMaterialItem } from '@renderer/hooks/materials/useGetMaterialsList'
+import { showToast } from '@renderer/utils/reactToastify'
 
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<IDTOMaterialItem[]>([])
@@ -16,20 +15,13 @@ const MaterialsMainPage: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const { runCreateMaterial } = useCreateMaterial({
-    onCompleted: () => {},
-    onError: () => {}
-  })
-
   const { runGetMaterialsList } = useGetMaterialsList({
     onCompleted: (response) => {
-      const { result } = response
-      console.log('- MATERIALS:', response)
-
+      const { result = [] } = response
       setMaterialsList(result)
     },
     onError: (error) => {
-      console.log('- ERROR: ', error)
+      showToast({ type: 'error', message: error })
     }
   })
 
@@ -52,31 +44,6 @@ const MaterialsMainPage: React.FC = () => {
               })
             }}
           />
-          {/* <div>
-            <MyButton
-              className="mr-2"
-              label={`Test Bulk Upload Materials`}
-              onClick={() => {
-                const formatTestIngredients: MaterialFormData[] = ingredients.map((ingredient) => {
-                  const al = Math.floor(Math.random() * 3) + 3
-
-                  const p: MaterialFormData = {
-                    alert_threshold: al,
-                    current_stock_quantity: 150,
-                    display_name: ingredient.label,
-                    format: `${ingredient.format}`,
-                    price: ingredient.price,
-                    stock_base_quantity: 25,
-                    unit: ingredient.unit
-                  }
-
-                  return p
-                })
-
-                runCreateMaterial({ newMaterial: formatTestIngredients })
-              }}
-            />
-          </div> */}
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Materials List</div>
         <MyTextInput

@@ -29,14 +29,8 @@ export type IDTOMaterialItem = {
   updated_by?: string | null // Optional and can be null
 }
 
-interface IRunGetMaterialsListResult<T> {
-  success: boolean
-  error: string | null
-  result: ISqliteListResponse<T>[]
-}
-
 type IUseGetMaterialsList = (args: {
-  onCompleted?: <T>(data: IRunGetMaterialsListResult<T>) => void
+  onCompleted?: <T>(data: ISqliteListResponse<IDTOMaterialItem>) => void
   onError?: (err: string) => void
 }) => {
   loading: boolean
@@ -54,7 +48,9 @@ const useGetMaterialsList: IUseGetMaterialsList = ({ onCompleted, onError }) => 
       action: 'list',
       params: [],
       operationName: 'useGetMaterialsList'
-    })) as IRunGetMaterialsListResult<IDTOMaterialItem>
+    })) as ISqliteListResponse<IDTOMaterialItem>
+
+    response.result
 
     if (onCompleted) {
       onCompleted(response)

@@ -45,21 +45,6 @@ const ProductsMainPage: React.FC = () => {
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
         <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
           <ProductsInventoryList products={products} />
-          {/* {products.map((product) => {
-            return (
-              <React.Fragment key={product.id}>
-                <pre>{JSON.stringify(product, null, 4)}</pre>
-              </React.Fragment>
-            )
-          })} */}
-
-          {/* {materialsList.map((material) => {
-            return (
-              <div>
-                <pre>{JSON.stringify(material, null, 4)}</pre>
-              </div>
-            )
-          })} */}
         </div>
       </div>
     </MainAppTemplate>

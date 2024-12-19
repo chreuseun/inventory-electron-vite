@@ -35,7 +35,7 @@ const MaterialForm1: React.FC = () => {
 
   return (
     <React.Fragment>
-      <MyLoadingModal isOpen={loading} />
+      <MyLoadingModal show={loading} />
       <MyButton onClick={handleFormSubmit} label={'Save Material'} className="mt-4 w-32" />
       <div className=" border border-sectBorder p-4 mt-2 flex flex-wrap gap-x-2 overflow-auto gap-y-3 ">
         {MATERIAL_FORM_INPUTS.map((input) => {

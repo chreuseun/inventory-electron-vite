@@ -2,21 +2,13 @@ import { MyButton } from '@renderer/components/common'
 import { MainAppTemplate } from '@renderer/components/templates'
 import { PRODUCT_FORM_INPUTS } from '@renderer/configs/forms/productForm.config'
 import { IProductFormInput } from '@renderer/interfaces/form.interface'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 const ProductForm: React.FC = () => {
-  const {
-    register,
-    formState: { errors },
-    control
-  } = useForm()
+  const { control } = useForm()
 
   const renderFormItem: (args: { input: IProductFormInput }) => JSX.Element = ({ input }) => {
-    const displayErrMessage = (
-      errors[input.id]?.message ? errors[input.id]?.message : null
-    ) as ReactNode
-
     return (
       <Controller
         key={input.id}
