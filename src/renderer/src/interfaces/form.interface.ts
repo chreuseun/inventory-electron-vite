@@ -1,5 +1,6 @@
 import { HTMLInputTypeAttribute } from 'react'
 import { ValidationRule } from 'react-hook-form'
+import { I } from 'react-router/dist/production/route-data-DuV3tXo2'
 
 export type IFormInputTypes = 'TEXT' | 'TIMESTAMP' | 'DATE' | 'NUMBER' //  TIMESTAMP_RANGE
 
@@ -38,6 +39,7 @@ export interface IDynamicInput {
   max?: number
   min?: number
   inputType: CustomFormInputType
+  options?: IOption[]
 }
 
 export interface IProductFormInput {
@@ -50,4 +52,10 @@ export interface IProductFormInput {
   maxLength?: number
   max?: number
   min?: number
+}
+
+export interface IOption {
+  value: string
+  label: string
+  quantity?: number
 }

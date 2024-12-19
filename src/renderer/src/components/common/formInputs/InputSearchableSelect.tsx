@@ -1,16 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
 import InputSearchQuantityInput from './InputSearchQuantityInput'
+import { IOption } from '@renderer/interfaces/form.interface'
 
 interface ICommonInputProps {
   label?: string
   className?: string
-}
-
-interface IOption {
-  value: string
-  label: string
-  quantity?: number
 }
 
 interface ISelectInput extends ICommonInputProps {

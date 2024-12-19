@@ -1,23 +1,32 @@
 import { MyButton } from '@renderer/components/common'
 import { InputSearchableSelect, InputTextInput } from '@renderer/components/common/formInputs'
-import { ingredients } from '@renderer/configs/placeholders/testIngredients'
 import { IDynamicInput } from '@renderer/interfaces/form.interface'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 
 const useMyReactHookForm: React.FC<{
   inputsConfig: IDynamicInput[]
   onHandleSubmit: (data: FieldValues) => void
 }> = ({ inputsConfig, onHandleSubmit }) => {
-  const { control, handleSubmit } = useForm()
+  const { control, handleSubmit, reset } = useForm()
+  const [remount, setRemount] = useState(false)
 
   const onSubmitHandler = handleSubmit((data) => {
     onHandleSubmit(data)
+    reset()
+    setRemount(true)
+    setTimeout(() => {
+      setRemount(false)
+    }, 100)
   })
+
+  if (remount) {
+    return null
+  }
 
   return (
     <React.Fragment>
-      <div className="border-b-sectBorder border-b flex  flex-col overflow-auto gap-x-2 pb-2">
+      <div className="border-b-sectBorder border-b flex flex-col overflow-auto gap-x-2 pb-2 shrink-0">
         {inputsConfig.map((input) => {
           if (input.inputType === 'SELECT_MULTIPLE') {
             return (
@@ -35,7 +44,7 @@ const useMyReactHookForm: React.FC<{
                       <InputSearchableSelect
                         key={input.id}
                         className="text-dark"
-                        options={ingredients}
+                        options={input?.options || []}
                         label={`${input.label}`}
                         multiple={true}
                         onChange={(selectedMaterialIDs) => {

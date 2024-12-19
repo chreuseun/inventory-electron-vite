@@ -25,6 +25,15 @@ export interface ISqliteListResponse<T> {
   result: T[]
 }
 
+export interface ISqliteCreateResponse {
+  success: boolean
+  error: ISqliteErr
+  result: {
+    lastInsertRowid: number
+    changes: number
+  }
+}
+
 const executeSQLiteQuery: (args: IExecuteSQLiteQuery) => Promise<{
   success: boolean
   error: string | null

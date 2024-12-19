@@ -30,7 +30,7 @@ export type IDTOMaterialItem = {
 }
 
 type IUseGetMaterialsList = (args: {
-  onCompleted?: <T>(data: ISqliteListResponse<IDTOMaterialItem>) => void
+  onCompleted?: (data: ISqliteListResponse<IDTOMaterialItem>) => void
   onError?: (err: string) => void
 }) => {
   loading: boolean
