@@ -2,14 +2,17 @@ import { handleError } from '@renderer/utils/api'
 import {
   executeSQLiteQuery,
   ISqliteBulkInsertResponse,
+  ISqliteCreateResponse,
   ISqliteListResponse,
-  ISqliteReadResponse
+  ISqliteReadResponse,
+  ISqliteUpdateResponse
 } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import { showToast } from '@renderer/utils/reactToastify'
 import { generateUUID } from '@renderer/utils/uuid'
 import {
+  ShelfTransactionTypes,
   StandardInventoryIntention,
   StandardInventoryReason,
   StandardTransactors,
@@ -82,6 +85,28 @@ INSERT INTO stock_transactions (
   @transactedBy,
   @intention,
   @reason
+)
+`
+
+const INSERT_IN_SHELF_TRANSACTION = `
+INSERT INTO shelf_stock_transactions (
+reference_id,
+  product_id,
+  quantity,
+  transaction_type,
+  created_by,
+  transacted_by,
+  intention,
+  reason
+) VALUES (
+  @referenceID, 
+  @productID,
+  @shelfQuantity,
+  @transactionType,
+  @createdBy,
+  @transactedBy,
+  @reason,
+  @intention
 )
 `
 
@@ -199,13 +224,36 @@ const useUpdateProductPotentialInventory: UseUpdateProductPotentialInventory = (
         ],
         action: 'update',
         operationName: 'updateProductNewShelfQuantity'
-      })) as ISqliteBulkInsertResponse
+      })) as ISqliteUpdateResponse
 
       if (updateProductNewShelfQuantity.error) {
         throw new Error(updateProductNewShelfQuantity.error)
       }
 
-      // STEP 7 Append transaction record to stock_transactions
+      // STEP 7: Append transaction record to shelf_stock_transactions
+      const addToShelfTxnResponse = (await executeSQLiteQuery({
+        sql: INSERT_IN_SHELF_TRANSACTION,
+        params: [
+          {
+            referenceID: generateUUID(),
+            productID: Number(product.id).toFixed(),
+            shelfQuantity: productQuantity,
+            transactionType: ShelfTransactionTypes.IN,
+            createdBy: StandardTransactors.SYSTEM,
+            transactedBy: StandardTransactors.SYSTEM,
+            reason: StandardInventoryReason.RESTOCK_SHELF,
+            intention: StandardInventoryIntention.TRANSFER
+          }
+        ],
+        operationName: 'addToShelfTxnResponse',
+        action: 'create'
+      })) as ISqliteCreateResponse
+
+      if (addToShelfTxnResponse.error) {
+        throw new Error(addToShelfTxnResponse.error)
+      }
+
+      // STEP 8 Append transaction record to stock_transactions
       const insertStockTransactions = (await executeSQLiteQuery({
         sql: INSERT_POTENTIAL_INVENTORY_TRANSACTION,
         params: materialsList.map((material) => {
