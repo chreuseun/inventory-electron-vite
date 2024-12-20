@@ -6,6 +6,13 @@ SELECT
     *
 FROM 
   materials
+
+ORDER BY 
+  CASE
+    WHEN alert_threshold >= current_stock_quantity  THEN 1
+    ELSE 0
+  END
+    DESC, display_name ASC
 `
 
 type IRunGetMaterialsList = (args: { displayName: string | null }) => Promise<void>

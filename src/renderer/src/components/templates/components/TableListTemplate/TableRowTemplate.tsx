@@ -2,9 +2,26 @@
 import React from 'react'
 import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
 
+export enum IRowExceptionKeys {
+  ALERT_ROW = 'ALERT_ROW',
+  ACTIVE_ROW = 'ACTIVE_ROW'
+}
+
 const TableRowTemplate: React.FC<{ row: IRowConfigs }> = ({ row }) => {
-  const renderRow: (arg: { renderRow: string | JSX.Element }) => JSX.Element = ({ renderRow }) => {
-    return <td className="text-center px-2 py-2">{renderRow}</td>
+  const isShouldRenderAlertRow = row.some((item) => item === IRowExceptionKeys.ALERT_ROW)
+
+  const renderRow: (arg: { renderRow: string | JSX.Element }) => JSX.Element | null = ({
+    renderRow
+  }) => {
+    if (renderRow === IRowExceptionKeys.ALERT_ROW) {
+      return null
+    }
+
+    return (
+      <td className={`text-center px-2 py-2 ${isShouldRenderAlertRow ? 'bg-error' : ''}`}>
+        {renderRow}
+      </td>
+    )
   }
 
   return (

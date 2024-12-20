@@ -7,12 +7,26 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IDTOMaterialItem } from '@renderer/hooks/materials/useGetMaterialsList'
 import { showToast } from '@renderer/utils/reactToastify'
+import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
+import { IRowExceptionKeys } from '@renderer/components/templates/components/TableListTemplate/TableRowTemplate'
 
-const generateRows: (args: IDTOMaterialItem) => string[] = (materialItem) => {
-  const { display_name, format, unit, current_stock_quantity } = materialItem
+const generateRows: (args: IDTOMaterialItem) => IRowConfigs = (materialItem) => {
+  const { display_name, format, unit, current_stock_quantity, alert_threshold } = materialItem
 
-  return [display_name, `${format} ${unit}`, `${current_stock_quantity}`]
+  return [
+    <span key="display_name" className="text-sm font-semibold">
+      {display_name} <span className="text-sm text-secondaryText">({`${format} ${unit}`})</span>
+    </span>,
+    <div key={'current_stock_quantity'} className="text-lg text-light font-bold">
+      {current_stock_quantity}
+    </div>,
+
+    // this is for setting the row to red
+    alert_threshold >= current_stock_quantity ? IRowExceptionKeys.ALERT_ROW : ''
+  ]
 }
+
+const MATERIALS_LIST_COLUMNS = ['Material', 'Stock', '  ']
 
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<IDTOMaterialItem[]>([])
@@ -54,7 +68,7 @@ const MaterialsMainPage: React.FC = () => {
             ii.display_name.toLowerCase().includes(searchKeyword.toLowerCase())
           )}
           rowConfig={generateRows}
-          columns={['Material', 'unit', 'quantity']}
+          columns={MATERIALS_LIST_COLUMNS}
         >
           <MyTextInput
             onChange={(event) => {

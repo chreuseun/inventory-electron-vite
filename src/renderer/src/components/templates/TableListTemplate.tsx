@@ -31,7 +31,7 @@ const TableListTemplate = <T,>({
     <React.Fragment>
       {listTitle ? <div className="border-b-sectBorder border-b-2 mb-2">{listTitle}</div> : null}
       {children}
-      <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
+      <div className="border border-sectBorder p-4 rounded-xs flex-grow flex flex-col overflow-auto">
         <div className="flex flex-col flex-grow overflow-auto">
           <table className="min-w-full table-auto border-collapse border-0 overflow-auto">
             {isListEmpty ? (
