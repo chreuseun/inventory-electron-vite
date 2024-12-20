@@ -4,7 +4,6 @@ import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useNavigate } from 'react-router'
 import { useCreateProducts, useGetProductsInventory } from '@renderer/hooks/products'
-import { testProducts } from '@renderer/configs/placeholders/testProducts'
 import React, { useEffect } from 'react'
 import { ProductsInventoryList } from './components'
 
@@ -16,12 +15,6 @@ const ProductsMainPage: React.FC = () => {
   useEffect(() => {
     runGetProductsInventory()
   }, [])
-
-  const onRunTextProducts: () => void = () => {
-    runCreateProducts({
-      products: testProducts
-    })
-  }
 
   return (
     <MainAppTemplate
