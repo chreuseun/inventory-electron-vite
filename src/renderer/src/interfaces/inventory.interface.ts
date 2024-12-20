@@ -25,3 +25,8 @@ export enum StandardInventoryIntention {
   TRANSFER = 'TRANSFER',
   PURCHASE = 'PURCHASE'
 }
+
+export enum StockTransactionTypes {
+  IN = 'IN',
+  OUT = 'OUT'
+}

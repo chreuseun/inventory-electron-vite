@@ -8,6 +8,13 @@ import {
 import { useState } from 'react'
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import { showToast } from '@renderer/utils/reactToastify'
+import { generateUUID } from '@renderer/utils/uuid'
+import {
+  StandardInventoryIntention,
+  StandardInventoryReason,
+  StandardTransactors,
+  StockTransactionTypes
+} from '@renderer/interfaces/inventory.interface'
 
 const GET_PRODUCT_RECIPE_ID = `
 SELECT 
@@ -48,6 +55,34 @@ SET
   shelf_quantity = shelf_quantity + @productQuantity
 
 WHERE id = @productID
+`
+
+const INSERT_POTENTIAL_INVENTORY_TRANSACTION = `
+INSERT INTO stock_transactions (
+  reference_id,
+  product_id,
+  recipe_id,
+  material_id,
+  material_quantity,
+  product_quantity,
+  transaction_type,
+  created_by,
+  transacted_by,
+  intention,
+  reason
+) VALUES (
+  @referenceID,
+  @productID,
+  @recipeID,
+  @materialID,
+  @materialQuantity,
+  @productQuantity,
+  @transactionType,
+  @createdBy,
+  @transactedBy,
+  @intention,
+  @reason
+)
 `
 
 type ProductWithRecipeID = {
@@ -94,6 +129,8 @@ const useUpdateProductPotentialInventory: UseUpdateProductPotentialInventory = (
   }) => {
     setUpdatingPotentialInventory(true)
     try {
+      const stockTransactionReferenceID = generateUUID()
+
       // STEP 1: get the current_recipe_id
       const getProductRecipeID = (await executeSQLiteQuery({
         sql: GET_PRODUCT_RECIPE_ID,
@@ -166,6 +203,32 @@ const useUpdateProductPotentialInventory: UseUpdateProductPotentialInventory = (
 
       if (updateProductNewShelfQuantity.error) {
         throw new Error(updateProductNewShelfQuantity.error)
+      }
+
+      // STEP 7 Append transaction record to stock_transactions
+      const insertStockTransactions = (await executeSQLiteQuery({
+        sql: INSERT_POTENTIAL_INVENTORY_TRANSACTION,
+        params: materialsList.map((material) => {
+          return {
+            referenceID: stockTransactionReferenceID,
+            productID: Number(product.id).toFixed(),
+            materialID: material.material_id,
+            materialQuantity: material.quantity_required * productQuantity,
+            productQuantity: productQuantity,
+            recipeID: recipeID,
+            transactionType: StockTransactionTypes.IN,
+            createdBy: StandardTransactors.SYSTEM,
+            transactedBy: StandardTransactors.SYSTEM,
+            reason: StandardInventoryReason.SALE,
+            intention: StandardInventoryIntention.PURCHASE
+          }
+        }),
+        action: 'bulkUpsert',
+        operationName: 'insertStockTransactions'
+      })) as ISqliteBulkInsertResponse
+
+      if (insertStockTransactions.error) {
+        throw new Error(insertStockTransactions.error)
       }
 
       showToast({

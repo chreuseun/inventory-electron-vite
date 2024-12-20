@@ -3,7 +3,7 @@ import {
   StandardInventoryIntention,
   StandardInventoryReason,
   StandardTransactors
-} from '@renderer/interfaces/inventroy.interface'
+} from '@renderer/interfaces/inventory.interface'
 import { handleError } from '@renderer/utils/api'
 import { showToast } from '@renderer/utils/reactToastify'
 import { executeSQLiteQuery, ISqliteUpdateResponse } from '@renderer/utils/sqlite'
