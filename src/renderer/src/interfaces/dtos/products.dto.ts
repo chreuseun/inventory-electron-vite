@@ -17,3 +17,15 @@ export interface IDTOProduct {
   current_warehouse_quantity: number
   alert_threshold: number
 }
+
+export interface IDTOProductPotentialStock {
+  id: string
+  reference_id: string
+  display_name: string
+  shelf_quantity: string
+  potential_stock: number
+  alert_threshold: number
+  material_ids?: string // "12,13,5,7,8"
+  materials_count?: number
+  current_warehouse_quantity?: number
+}

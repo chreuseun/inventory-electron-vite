@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
-import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
+import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import ProductListItem from './ProductListItem'
 
 const COL_NAMES = ['Product', 'Qty.', 'Shelf Qty.', '-']
 
-const ProductsInventoryList: React.FC<{ products: IDTOProduct[] }> = ({ products }) => {
+const ProductsInventoryList: React.FC<{ products: IDTOProductPotentialStock[] }> = ({
+  products
+}) => {
   const renderColumn: (arg: { name: string }) => JSX.Element = ({ name }) => {
     return (
       <th key={name} className="px-4 py-2 font-bold text-xs text-center">

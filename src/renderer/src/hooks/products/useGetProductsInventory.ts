@@ -1,36 +1,51 @@
-import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
+import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import { executeSQLiteQuery, ISqliteListResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
-const GET_ALL_PRODUCT = `
+const GET_PRODUCTS_MATERIALS_POTENTIAL_STOCK = `
 SELECT 
-    id,
-    reference_id,
-    display_name,
-    shelf_quantity,
-    current_warehouse_quantity,
-    alert_threshold
-FROM products 
+	pd.id AS 'id',
+  pd.reference_id AS 'reference_id',
+	pd.display_name AS 'display_name',
+  pd.shelf_quantity,
+	MIN(
+    CASE  
+      WHEN mt.current_stock_quantity>= rt.quantity_required THEN  FLOOR(mt.current_stock_quantity/rt.quantity_required)
+      ELSE 0 
+    END
+	) AS 'potential_stock',
+  pd.alert_threshold,
+	GROUP_CONCAT(rt.material_id,',')  AS 'material_ids',
+	COUNT(rt.material_id) AS 'materials_count'
 
-LIMIT 30
+
+FROM products AS pd
+ 
+JOIN recipe_items AS rt ON rt.recipe_id = pd. current_recipe_id 
+
+JOIN materials AS mt  ON mt.id =rt.recipe_id
+
+GROUP BY pd.id
 `
 
 type IRunGetProductsInventory = () => Promise<void>
 
 type IUseGetProductsInventory = (args?: {
-  onCompleted?: (data: ISqliteListResponse<IDTOProduct>) => void
+  onCompleted?: (data: ISqliteListResponse<IDTOProductPotentialStock>) => void
   onError?: (err: string) => void
 }) => {
   fetchingProducts: boolean
   runGetProductsInventory: IRunGetProductsInventory
-  products: IDTOProduct[]
+  products: IDTOProductPotentialStock[]
 }
 
 const useGetProductsInventory: IUseGetProductsInventory = (args) => {
   const [fetchingProducts, setFetchingProducts] = useState(false)
-  const [products, setProducts] = useState<IDTOProduct[]>([])
+  const [products, setProducts] = useState<IDTOProductPotentialStock[]>([])
 
-  const handleCompleted: (data: ISqliteListResponse<IDTOProduct>) => void = (data) => {
+  const handleCompleted: (data: ISqliteListResponse<IDTOProductPotentialStock>) => void = (
+    data
+  ) => {
     const { result } = data
     setProducts(result)
 
@@ -48,11 +63,11 @@ const useGetProductsInventory: IUseGetProductsInventory = (args) => {
     setFetchingProducts(true)
     try {
       const results = (await executeSQLiteQuery({
-        sql: GET_ALL_PRODUCT,
+        sql: GET_PRODUCTS_MATERIALS_POTENTIAL_STOCK,
         params: [],
         operationName: 'useGetProductsInventory',
         action: 'list'
-      })) as ISqliteListResponse<IDTOProduct>
+      })) as ISqliteListResponse<IDTOProductPotentialStock>
 
       const { error: sqlError } = results
       if (sqlError) {

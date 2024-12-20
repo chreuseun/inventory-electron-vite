@@ -10,7 +10,7 @@ import { ProductsInventoryList } from './components'
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
   const { fetchingProducts, runGetProductsInventory, products } = useGetProductsInventory()
-  const { runCreateProducts, isCreatingProducts } = useCreateProducts()
+  // const { runCreateProducts, isCreatingProducts } = useCreateProducts()
 
   useEffect(() => {
     runGetProductsInventory()
@@ -20,7 +20,7 @@ const ProductsMainPage: React.FC = () => {
     <MainAppTemplate
       headerText="Manage Products"
       className="flex flex-col"
-      loading={isCreatingProducts || fetchingProducts}
+      loading={fetchingProducts}
     >
       <div className="p-2 flex-grow flex flex-col overflow-auto">
         <div className="mb-2 flex justify-between ">
@@ -33,7 +33,6 @@ const ProductsMainPage: React.FC = () => {
               })
             }}
           />
-          <MyButton label={`Add Test Products`} onClick={onRunTextProducts} />
         </div>
         <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
         <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
