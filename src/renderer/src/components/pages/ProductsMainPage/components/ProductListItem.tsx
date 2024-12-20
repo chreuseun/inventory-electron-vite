@@ -15,7 +15,6 @@ const ProductListItem: React.FC<{ product: IDTOProductPotentialStock }> = ({ pro
   return (
     <tr className="hover:bg-sectBorder border-collapse border-0 text-xs">
       {renderRow({ renderRow: displayName })}
-
       {renderRow({ renderRow: <ProductPotentialInventoryView product={product} /> })}
       {renderRow({
         renderRow: <ProductShelfInventoryUpdateView product={product} />
