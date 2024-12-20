@@ -17,7 +17,8 @@ module.exports = {
         light: '#FFF',
         dark: '#121212',
         sectBorder: '#374151',
-        error: '#FF0000'
+        error: '#FF0000',
+        success: '#5cb85c'
       },
       width: {
         perc48: '48%'

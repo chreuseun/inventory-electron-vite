@@ -22,6 +22,12 @@ const ProductShelfInventoryUpdateView: React.FC<{ product: IDTOProductPotentialS
   const onClickUpdate: () => void = () => {
     setShowEditQTY(true)
   }
+  const onConfirmQty: (qty: number) => void = (qty) => {
+    runUpdateProductShelfInventory({
+      productID: product.id,
+      shelfQuantity: qty
+    })
+  }
 
   return (
     <React.Fragment>
@@ -38,17 +44,10 @@ const ProductShelfInventoryUpdateView: React.FC<{ product: IDTOProductPotentialS
       </div>
       {showEditQTY ? (
         <ProductEditQuantityModal
-          label="Update Shelf Count of "
+          label={<div className="text-md font-semibold bg-error">Extract from Shelf</div>}
           product={product}
           onClose={onCloseModal}
-          onConfirm={(qty) => {
-            console.log('--HEY:', qty)
-
-            runUpdateProductShelfInventory({
-              productID: product.id,
-              shelfQuantity: qty
-            })
-          }}
+          onConfirm={onConfirmQty}
         />
       ) : null}
       <MyLoadingModal show={updatingShelf} />

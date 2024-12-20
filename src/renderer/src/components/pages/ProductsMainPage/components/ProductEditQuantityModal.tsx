@@ -3,10 +3,11 @@ import { MyButton } from '@renderer/components/common'
 import { MinusCircleIcon, PlusCircleIcon, XIcon } from '@renderer/components/icons'
 import { ModalTemplate } from '@renderer/components/templates'
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
+import { showToast } from '@renderer/utils/reactToastify'
 import { useState } from 'react'
 
 interface IProductEditQuantityModal {
-  label?: string
+  label?: string | JSX.Element
   product: IDTOProductPotentialStock
   onClose?: () => void
   onConfirm?: (warehouseQTY: number) => void
@@ -21,11 +22,11 @@ const ProductEditQuantityModal: React.FC<IProductEditQuantityModal> = ({
   const [warehouseQTY, setWarehouseQTY] = useState(0)
 
   const incrementQTY: () => void = () => {
-    setWarehouseQTY((prev) => prev + 1)
+    setWarehouseQTY((prev) => (prev || 0) + 1)
   }
 
   const decrementQTY: () => void = () => {
-    setWarehouseQTY((prev) => prev - 1)
+    setWarehouseQTY((prev) => (prev || 0) - 1)
   }
 
   const renderQtyButton: (args: { type: 'add' | 'minus'; onClick?: () => void }) => JSX.Element = ({
@@ -52,17 +53,28 @@ const ProductEditQuantityModal: React.FC<IProductEditQuantityModal> = ({
   }
 
   const onConfirmPress: () => void = () => {
-    onConfirm && onConfirm(warehouseQTY)
+    if (warehouseQTY > 0) {
+      onConfirm && onConfirm(warehouseQTY)
+    } else {
+      showToast({
+        type: 'info',
+        message: 'Must be above 0'
+      })
+    }
+  }
+
+  const onKeydown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key === 'Escape') {
+      onEscape()
+    } else if (e.key === 'Enter') {
+      onConfirmPress()
+    }
   }
 
   return (
     <ModalTemplate>
       <div
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            onEscape()
-          }
-        }}
+        onKeyDown={onKeydown}
         className="flex flex-col p-2 bg-secondaryBackground  rounded-sm  m-auto text-light"
       >
         <XIcon className="cursor-pointer size-7 text-light" onClick={onClose} />
@@ -86,7 +98,7 @@ const ProductEditQuantityModal: React.FC<IProductEditQuantityModal> = ({
             />
             {renderQtyButton({ type: 'add', onClick: incrementQTY })}
           </div>
-          <MyButton onClick={onConfirmPress} label={'Confirm'} className="text-xl mt-4" />
+          <MyButton onClick={onConfirmPress} label={'Confirm'} className="mt-4" />
         </div>
       </div>
     </ModalTemplate>

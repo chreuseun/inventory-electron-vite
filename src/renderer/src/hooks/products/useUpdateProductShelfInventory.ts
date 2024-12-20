@@ -3,13 +3,21 @@ import { showToast } from '@renderer/utils/reactToastify'
 import { executeSQLiteQuery, ISqliteUpdateResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
-const UPDATE_PRODUCT_SHELF_BY_ID = `
+const MINUS_PRODUCT_SHELF_BY_ID = `
 UPDATE products
 SET
-	shelf_quantity=@shelfQuantity
+	shelf_quantity=shelf_quantity - @shelfQuantity
 WHERE
   id=@productID
 `
+
+// const ADD_PRODUCT_SHELF_BY_ID = `
+// UPDATE products
+// SET
+// 	shelf_quantity=shelf_quantity + @shelfQuantity
+// WHERE
+//   id=@productID
+// `
 
 type IRunUpdateProductShelfInventory = (arg: {
   productID: string
@@ -32,7 +40,7 @@ const useUpdateProductShelfInventory: UseUpdateProductShelfInventory = (props) =
 
     try {
       const response = (await executeSQLiteQuery({
-        sql: UPDATE_PRODUCT_SHELF_BY_ID,
+        sql: MINUS_PRODUCT_SHELF_BY_ID,
         params: [args],
         operationName: 'runUpdateProductShelfInventory',
         action: 'update'
