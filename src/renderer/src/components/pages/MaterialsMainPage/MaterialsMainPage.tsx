@@ -1,5 +1,5 @@
 import { MyButton, MyTextInput } from '@renderer/components/common'
-import { MainAppTemplate } from '@renderer/components/templates'
+import { MainAppTemplate, TableListTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { useGetMaterialsList } from '@renderer/hooks/materials'
 import { navigateToScreen } from '@renderer/utils/navigate'
@@ -30,6 +30,12 @@ const MaterialsMainPage: React.FC = () => {
 
   const isListEmpty = !materialsList.length
 
+  const generateRows: (args: IDTOMaterialItem) => string[] = (materialItem) => {
+    const { display_name, format, unit, current_stock_quantity } = materialItem
+
+    return [display_name, `${format} ${unit}`, current_stock_quantity]
+  }
+
   return (
     <MainAppTemplate headerText="Manage Materials" className="flex flex-col">
       <div className="p-2 flex-grow flex flex-col overflow-y-hidden">
@@ -44,24 +50,24 @@ const MaterialsMainPage: React.FC = () => {
             }}
           />
         </div>
-        <div className="border-b-sectBorder border-b-2 mb-2">Materials List</div>
-        <MyTextInput
-          onChange={(event) => {
-            setSearchKeyword(event.target.value || '')
-          }}
-          value={searchKeyword}
-          placeholder="Search Material"
-          className="w-44 mb-2 text-xs"
-        />
-        <div
-          className={`border border-sectBorder p-2 rounded-xs flex-grow flex flex-wrap items-start justify-between ${!isListEmpty ? 'overflow-y-auto ' : ''}`}
+
+        <TableListTemplate<IDTOMaterialItem>
+          listTitle="Materials List"
+          data={materialsList.filter((ii) =>
+            ii.display_name.toLowerCase().includes(searchKeyword.toLowerCase())
+          )}
+          rowConfig={generateRows}
+          columns={['Material', 'unit', 'quantity']}
         >
-          {materialsList
-            .filter((ii) => ii.display_name.toLowerCase().includes(searchKeyword.toLowerCase()))
-            .map((material) => {
-              return <MaterialCardItem material={material} key={material.id} />
-            })}
-        </div>
+          <MyTextInput
+            onChange={(event) => {
+              setSearchKeyword(event.target.value || '')
+            }}
+            value={searchKeyword}
+            placeholder="Search Material"
+            className="w-44 mb-2 text-xs"
+          />
+        </TableListTemplate>
       </div>
     </MainAppTemplate>
   )
