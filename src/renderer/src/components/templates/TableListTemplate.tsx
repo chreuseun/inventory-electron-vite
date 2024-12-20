@@ -1,11 +1,12 @@
 import React from 'react'
 import TableRowTemplate from './components/TableListTemplate/TableRowTemplate'
+import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
 
 interface ITableListTemplateProps<T> {
   listTitle?: string
   columns: string[]
   data: T[]
-  rowConfig: (rowItem: T) => (string | JSX.Element)[]
+  rowConfig: (rowItem: T) => IRowConfigs
   children?: React.ReactNode
 }
 

@@ -1,16 +1,30 @@
 import { MyButton } from '@renderer/components/common'
-import { MainAppTemplate } from '@renderer/components/templates'
+import { MainAppTemplate, TableListTemplate } from '@renderer/components/templates'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useNavigate } from 'react-router'
-import { useCreateProducts, useGetProductsInventory } from '@renderer/hooks/products'
+import { useGetProductsInventory } from '@renderer/hooks/products'
 import React, { useEffect } from 'react'
-import { ProductsInventoryList } from './components'
+import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
+import ProductPotentialInventoryView from './components/ProductPotentialInventoryView'
+import ProductShelfInventoryUpdateView from './components/ProductShelfInventoryUpdateView'
+import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
+
+const generateProductInventoryRowConfig: (product: IDTOProductPotentialStock) => IRowConfigs = (
+  product
+) => {
+  const { display_name } = product
+
+  return [
+    display_name,
+    <ProductPotentialInventoryView key={'potential_stock'} product={product} />,
+    <ProductShelfInventoryUpdateView key={'shelf_stock'} product={product} />
+  ]
+}
 
 const ProductsMainPage: React.FC = () => {
   const navigate = useNavigate()
   const { fetchingProducts, runGetProductsInventory, products } = useGetProductsInventory()
-  // const { runCreateProducts, isCreatingProducts } = useCreateProducts()
 
   useEffect(() => {
     runGetProductsInventory()
@@ -34,10 +48,12 @@ const ProductsMainPage: React.FC = () => {
             }}
           />
         </div>
-        <div className="border-b-sectBorder border-b-2 mb-2">Products</div>
-        <div className="border border-sectBorder p-1 rounded-xs flex-grow flex flex-col overflow-auto">
-          <ProductsInventoryList products={products} />
-        </div>
+        <TableListTemplate
+          listTitle="Products"
+          columns={['Product', 'Stock', 'Shelf Stock']}
+          data={products}
+          rowConfig={generateProductInventoryRowConfig}
+        />
       </div>
     </MainAppTemplate>
   )

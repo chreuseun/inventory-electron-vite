@@ -44,7 +44,7 @@ const ProductShelfInventoryUpdateView: React.FC<{ product: IDTOProductPotentialS
       </div>
       {showEditQTY ? (
         <ProductEditQuantityModal
-          label={<div className="text-md font-semibold bg-error">Extract from Shelf</div>}
+          label={<div className="text-md font-semibold bg-error text-dark">Remove from Shelf</div>}
           product={product}
           onClose={onCloseModal}
           onConfirm={onConfirmQty}

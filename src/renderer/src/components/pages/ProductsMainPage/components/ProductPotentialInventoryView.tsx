@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import React, { useState } from 'react'
 import ProductEditQuantityModal from './ProductEditQuantityModal'
@@ -56,7 +57,7 @@ const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialSto
         <ProductEditQuantityModal
           label={
             <div className="text-md font-semibold bg-success text-dark px-2">
-              Generate then add to Shelf
+              Generate then add to shelf
             </div>
           }
           product={product}

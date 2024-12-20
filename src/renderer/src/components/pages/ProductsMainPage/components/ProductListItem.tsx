@@ -3,11 +3,12 @@ import React from 'react'
 
 import ProductShelfInventoryUpdateView from './ProductShelfInventoryUpdateView'
 import ProductPotentialInventoryView from './ProductPotentialInventoryView'
+import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
 
 const ProductListItem: React.FC<{ product: IDTOProductPotentialStock }> = ({ product }) => {
   const { display_name: displayName } = product
 
-  const rowConfig: (string | JSX.Element)[] = [
+  const rowConfig: IRowConfigs = [
     displayName,
     <ProductPotentialInventoryView key={'potential_stock'} product={product} />,
     <ProductShelfInventoryUpdateView key={'shelf_stock'} product={product} />
