@@ -43,6 +43,12 @@ export interface ISqliteUpdateResponse {
   }
 }
 
+export interface ISqliteReadResponse<T> {
+  success: boolean
+  error: ISqliteErr
+  result: T
+}
+
 const executeSQLiteQuery: (args: IExecuteSQLiteQuery) => Promise<{
   success: boolean
   error: string | null

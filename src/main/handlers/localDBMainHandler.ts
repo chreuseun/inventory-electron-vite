@@ -53,10 +53,14 @@ const localDBMainHandler: () => void = () => {
         }
 
         case 'read': {
-          const stmt = db.prepare(sql)
+          try {
+            const stmt = db.prepare(sql)
+            const result = stmt.get(...params)
+            onSuccess(result)
+          } catch (errorRead) {
+            throw new Error(`${errorRead}`)
+          }
 
-          const result = stmt.get(...params)
-          onSuccess(result)
           break
         }
 

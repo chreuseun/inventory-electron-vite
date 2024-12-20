@@ -2,11 +2,20 @@
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import React, { useState } from 'react'
 import ProductEditQuantityModal from './ProductEditQuantityModal'
+import { useUpdateProductPotentialInventory } from '@renderer/hooks/products'
+import { MyLoadingModal } from '@renderer/components/common'
+import { showToast } from '@renderer/utils/reactToastify'
 
 const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialStock }> = ({
   product
 }) => {
   const [showEditQTY, setShowEditQTY] = useState(false)
+  const { updatingPotentialInventory, runUpdateProductPotentialInventory } =
+    useUpdateProductPotentialInventory({
+      onCompleted: () => {
+        onCloseModal()
+      }
+    })
 
   const onCloseModal: () => void = () => {
     setShowEditQTY(false)
@@ -16,8 +25,18 @@ const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialSto
     setShowEditQTY(true)
   }
 
-  const onConfirm: (qty: number) => void = (qty) => {
-    console.log('--- ON UPDATE POTENTIAL VIEW: ', qty)
+  const onConfirm: (productQuantity: number) => void = (productQuantity) => {
+    if (!product.id) {
+      showToast({
+        type: 'error',
+        message: 'Invalid Product payload'
+      })
+    }
+
+    runUpdateProductPotentialInventory({
+      product,
+      productQuantity: productQuantity
+    })
   }
 
   return (
@@ -35,12 +54,17 @@ const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialSto
       </div>
       {showEditQTY ? (
         <ProductEditQuantityModal
-          label="Update Stock of "
+          label={
+            <div className="text-md font-semibold bg-success text-dark px-2">
+              Generate then add to Shelf
+            </div>
+          }
           product={product}
           onClose={onCloseModal}
           onConfirm={onConfirm}
         />
       ) : null}
+      <MyLoadingModal show={updatingPotentialInventory} />
     </React.Fragment>
   )
 }

@@ -2,7 +2,7 @@
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import ProductListItem from './ProductListItem'
 
-const COL_NAMES = ['Product', 'Qty.', 'Shelf Qty.', '-']
+const COL_NAMES = ['Product', 'Qty.', 'Shelf Qty.']
 
 const ProductsInventoryList: React.FC<{ products: IDTOProductPotentialStock[] }> = ({
   products

@@ -8,6 +8,7 @@ SELECT
   pd.reference_id AS 'reference_id',
 	pd.display_name AS 'display_name',
   pd.shelf_quantity,
+  pd.current_recipe_id,
 	MIN(
     CASE  
       WHEN mt.current_stock_quantity>= rt.quantity_required THEN  FLOOR(mt.current_stock_quantity/rt.quantity_required)
@@ -23,7 +24,7 @@ FROM products AS pd
  
 JOIN recipe_items AS rt ON rt.recipe_id = pd. current_recipe_id 
 
-JOIN materials AS mt  ON mt.id =rt.recipe_id
+JOIN materials AS mt  ON mt.id =rt.material_id
 
 GROUP BY pd.id
 `

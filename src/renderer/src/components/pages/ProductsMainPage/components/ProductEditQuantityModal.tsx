@@ -82,7 +82,7 @@ const ProductEditQuantityModal: React.FC<IProductEditQuantityModal> = ({
           <div className="text-center text-lg text-light mb-2">
             <div>
               {label}
-              {product.display_name}
+              <div className="font-bold text-3xl mt-2">{product.display_name}</div>
             </div>
           </div>
           <div className="flex-row flex justify-center">

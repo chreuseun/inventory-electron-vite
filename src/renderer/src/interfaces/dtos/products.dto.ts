@@ -28,4 +28,5 @@ export interface IDTOProductPotentialStock {
   material_ids?: string // "12,13,5,7,8"
   materials_count?: number
   current_warehouse_quantity?: number
+  current_recipe_id: string
 }

@@ -1,4 +1,3 @@
-import { MyButton } from '@renderer/components/common'
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import React from 'react'
 
@@ -18,13 +17,6 @@ const ProductListItem: React.FC<{ product: IDTOProductPotentialStock }> = ({ pro
       {renderRow({ renderRow: <ProductPotentialInventoryView product={product} /> })}
       {renderRow({
         renderRow: <ProductShelfInventoryUpdateView product={product} />
-      })}
-      {renderRow({
-        renderRow: (
-          <div>
-            <MyButton className="m-1" label={'Update'} onClick={() => {}} />
-          </div>
-        )
       })}
     </tr>
   )
