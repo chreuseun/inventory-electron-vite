@@ -4,59 +4,75 @@ import { ModalTemplate } from '@renderer/components/templates'
 import { IDTOProduct } from '@renderer/interfaces/dtos/products.dto'
 import { useState } from 'react'
 
-const ProductEditQuantityModal: React.FC<{ product: IDTOProduct; onClose?: () => void }> = ({
-  product,
-  onClose
-}) => {
-  const [warehouseQTY, setWarehouseQTY] = useState(product.current_warehouse_quantity)
+const ProductEditQuantityModal: React.FC<{
+  label?: string
+  product: IDTOProduct
+  onClose?: () => void
+}> = ({ product, onClose, label = '' }) => {
+  const [warehouseQTY, setWarehouseQTY] = useState(0)
 
-  const renderPlusButton: () => JSX.Element = () => {
-    const incrementQTY: () => void = () => {
-      setWarehouseQTY((prev) => prev + 1)
-    }
+  const incrementQTY: () => void = () => {
+    setWarehouseQTY((prev) => prev + 1)
+  }
 
+  const decrementQTY: () => void = () => {
+    setWarehouseQTY((prev) => prev - 1)
+  }
+
+  const renderQtyButton: (args: { type: 'add' | 'minus'; onClick?: () => void }) => JSX.Element = ({
+    type,
+    onClick
+  }) => {
     return (
       <button
         title="Add New"
-        onClick={incrementQTY}
-        className="group cursor-pointer outline-none  duration-300"
+        onClick={onClick}
+        className="group cursor-pointer outline-none border-2 border-light p-2"
       >
-        <PlusCircleIcon className="size-14" />
+        {type === 'add' ? (
+          <PlusCircleIcon className="size-16" />
+        ) : (
+          <MinusCircleIcon className="size-16" />
+        )}
       </button>
     )
   }
 
-  const renderMinusButton: () => JSX.Element = () => {
-    const decrementQTY: () => void = () => {
-      setWarehouseQTY((prev) => prev - 1)
-    }
-
-    return (
-      <button
-        title="Remove"
-        onClick={decrementQTY}
-        className="group cursor-pointer outline-none  duration-300"
-      >
-        <MinusCircleIcon className="size-14" />
-      </button>
-    )
+  const onEscape: () => void = () => {
+    onClose && onClose()
   }
 
   return (
     <ModalTemplate>
-      <div className="p-2 bg-white rounded-sm text-dark m-auto">
-        <XIcon className="cursor-pointer size-9" onClick={onClose} />
-        <div className="pt-4">
-          <div className="pb-2 text-center text-sm">{product.display_name}</div>
-          <div className="flex-row flex">
-            {renderMinusButton()}
+      <div
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            onEscape()
+          }
+        }}
+        className="flex flex-col p-2 bg-secondaryBackground  rounded-sm  m-auto text-light"
+      >
+        <XIcon className="cursor-pointer size-7 text-light" onClick={onClose} />
+        <div className="pt-4 ">
+          <div className="text-center text-lg text-light">
+            {label}
+            {product.display_name}
+          </div>
+          <div className=" mb-1 text-center text-lg text-light">
+            Current Stock: {product.current_warehouse_quantity}
+          </div>
+          <div className="shadow-md  flex-row flex justify-center">
+            {renderQtyButton({
+              type: 'minus',
+              onClick: decrementQTY
+            })}
             <input
-              className="p-2 pl-4 border-secondaryText border-4 text- w-32 text-center text-xl font-bold rounded-md"
+              className="p-2 pl-4  border-2 border-light text-dark w-32 text-center text-2xl font-bold"
               type="number"
               value={warehouseQTY}
               onChange={(e) => setWarehouseQTY(parseInt(e.target.value))}
             />
-            {renderPlusButton()}
+            {renderQtyButton({ type: 'add', onClick: incrementQTY })}
           </div>
         </div>
       </div>

@@ -40,7 +40,11 @@ const ProductListItem: React.FC<{ product: IDTOProduct }> = ({ product }) => {
         renderRow: renderUpdateStockButton()
       })}
       {showEditQTY ? (
-        <ProductEditQuantityModal product={product} onClose={onCloseUpdateStockModal} />
+        <ProductEditQuantityModal
+          label="Produce "
+          product={product}
+          onClose={onCloseUpdateStockModal}
+        />
       ) : null}
     </tr>
   )
