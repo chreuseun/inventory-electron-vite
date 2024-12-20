@@ -61,10 +61,13 @@ const localDBMainHandler: () => void = () => {
         }
 
         case 'update': {
-          const stmt = db.prepare(sql)
-
-          const result = stmt.run(...params)
-          onSuccess(result)
+          try {
+            const stmt = db.prepare(sql)
+            const result = stmt.run(...params)
+            onSuccess(result)
+          } catch (errorUpdate) {
+            throw new Error(`${errorUpdate}`)
+          }
           break
         }
 

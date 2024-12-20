@@ -16,6 +16,10 @@ const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialSto
     setShowEditQTY(true)
   }
 
+  const onConfirm: (qty: number) => void = (qty) => {
+    console.log('--- ON UPDATE POTENTIAL VIEW: ', qty)
+  }
+
   return (
     <React.Fragment>
       <div className="relative group">
@@ -34,6 +38,7 @@ const ProductPotentialInventoryView: React.FC<{ product: IDTOProductPotentialSto
           label="Update Stock of "
           product={product}
           onClose={onCloseModal}
+          onConfirm={onConfirm}
         />
       ) : null}
     </React.Fragment>

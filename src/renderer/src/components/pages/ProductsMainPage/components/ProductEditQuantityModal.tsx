@@ -5,11 +5,19 @@ import { ModalTemplate } from '@renderer/components/templates'
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import { useState } from 'react'
 
-const ProductEditQuantityModal: React.FC<{
+interface IProductEditQuantityModal {
   label?: string
   product: IDTOProductPotentialStock
   onClose?: () => void
-}> = ({ product, onClose, label = '' }) => {
+  onConfirm?: (warehouseQTY: number) => void
+}
+
+const ProductEditQuantityModal: React.FC<IProductEditQuantityModal> = ({
+  product,
+  onClose,
+  label = '',
+  onConfirm
+}) => {
   const [warehouseQTY, setWarehouseQTY] = useState(0)
 
   const incrementQTY: () => void = () => {
@@ -43,6 +51,10 @@ const ProductEditQuantityModal: React.FC<{
     onClose && onClose()
   }
 
+  const onConfirmPress: () => void = () => {
+    onConfirm && onConfirm(warehouseQTY)
+  }
+
   return (
     <ModalTemplate>
       <div
@@ -74,7 +86,7 @@ const ProductEditQuantityModal: React.FC<{
             />
             {renderQtyButton({ type: 'add', onClick: incrementQTY })}
           </div>
-          <MyButton onClick={() => {}} label={'Confirm'} className="text-xl mt-4" />
+          <MyButton onClick={onConfirmPress} label={'Confirm'} className="text-xl mt-4" />
         </div>
       </div>
     </ModalTemplate>

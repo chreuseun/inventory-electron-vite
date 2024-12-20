@@ -2,11 +2,18 @@
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
 import React, { useState } from 'react'
 import ProductEditQuantityModal from './ProductEditQuantityModal'
+import { useUpdateProductShelfInventory } from '@renderer/hooks/products'
+import { MyLoadingModal } from '@renderer/components/common'
 
 const ProductShelfInventoryUpdateView: React.FC<{ product: IDTOProductPotentialStock }> = ({
   product
 }) => {
   const [showEditQTY, setShowEditQTY] = useState(false)
+  const { runUpdateProductShelfInventory, updatingShelf } = useUpdateProductShelfInventory({
+    onCompleted: () => {
+      window.location.reload()
+    }
+  })
 
   const onCloseModal: () => void = () => {
     setShowEditQTY(false)
@@ -34,8 +41,17 @@ const ProductShelfInventoryUpdateView: React.FC<{ product: IDTOProductPotentialS
           label="Update Shelf Count of "
           product={product}
           onClose={onCloseModal}
+          onConfirm={(qty) => {
+            console.log('--HEY:', qty)
+
+            runUpdateProductShelfInventory({
+              productID: product.id,
+              shelfQuantity: qty
+            })
+          }}
         />
       ) : null}
+      <MyLoadingModal show={updatingShelf} />
     </React.Fragment>
   )
 }

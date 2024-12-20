@@ -1,4 +1,5 @@
 import useCreateProducts from './useCreateProducts'
 import useGetProductsInventory from './useGetProductsInventory'
+import useUpdateProductShelfInventory from './useUpdateProductShelfInventory'
 
-export { useCreateProducts, useGetProductsInventory }
+export { useCreateProducts, useGetProductsInventory, useUpdateProductShelfInventory }

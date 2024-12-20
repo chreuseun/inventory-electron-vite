@@ -5,6 +5,7 @@ import ReportsIcon from './ReportsIcon'
 import RecipesIcon from './RecipesIcon'
 import ProductsIcon from './ProductsIcon'
 import MaterialsIcon from './MaterialsIcon'
+import RefreshIcon from './RefershIcon'
 
 export {
   XIcon,
@@ -13,5 +14,6 @@ export {
   ReportsIcon,
   RecipesIcon,
   ProductsIcon,
-  MaterialsIcon
+  MaterialsIcon,
+  RefreshIcon
 }
