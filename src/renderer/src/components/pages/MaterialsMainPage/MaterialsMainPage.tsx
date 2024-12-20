@@ -5,9 +5,14 @@ import { useGetMaterialsList } from '@renderer/hooks/materials'
 import { navigateToScreen } from '@renderer/utils/navigate'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import MaterialCardItem from './components/MaterialCardItem'
 import { IDTOMaterialItem } from '@renderer/hooks/materials/useGetMaterialsList'
 import { showToast } from '@renderer/utils/reactToastify'
+
+const generateRows: (args: IDTOMaterialItem) => string[] = (materialItem) => {
+  const { display_name, format, unit, current_stock_quantity } = materialItem
+
+  return [display_name, `${format} ${unit}`, `${current_stock_quantity}`]
+}
 
 const MaterialsMainPage: React.FC = () => {
   const [materialsList, setMaterialsList] = useState<IDTOMaterialItem[]>([])
@@ -27,14 +32,6 @@ const MaterialsMainPage: React.FC = () => {
   useEffect(() => {
     runGetMaterialsList({ displayName: 'name' })
   }, [])
-
-  const isListEmpty = !materialsList.length
-
-  const generateRows: (args: IDTOMaterialItem) => string[] = (materialItem) => {
-    const { display_name, format, unit, current_stock_quantity } = materialItem
-
-    return [display_name, `${format} ${unit}`, current_stock_quantity]
-  }
 
   return (
     <MainAppTemplate headerText="Manage Materials" className="flex flex-col">
