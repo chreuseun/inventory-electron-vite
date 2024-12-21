@@ -10,3 +10,11 @@ export interface IProductFormData {
     }
   }
 }
+
+export enum IFormProduct {
+  display_name = 'display_name',
+  description = 'description',
+  alert_threshold = 'alert_threshold',
+  shelf_quantity = 'shelf_quantity',
+  recipe_id = 'recipe_id'
+}

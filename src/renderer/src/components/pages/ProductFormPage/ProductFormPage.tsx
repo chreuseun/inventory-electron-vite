@@ -4,7 +4,7 @@ import { MainAppTemplate } from '@renderer/components/templates'
 import { PRODUCT_FORM_INPUTS_V2 } from '@renderer/configs/forms/productForm.config'
 import { FieldValues } from 'react-hook-form'
 import { useMyReactHookForm as MyReactHookForm } from '@renderer/hooks/reactForms'
-import { IProductFormData } from '@renderer/interfaces/product.interface'
+import { IFormProduct, IProductFormData } from '@renderer/interfaces/product.interface'
 import { useCreateProducts } from '@renderer/hooks/products'
 import { generateUUID } from '@renderer/utils/uuid'
 import { StandardTransactors } from '@renderer/interfaces/inventory.interface'
@@ -22,7 +22,7 @@ const ProductFormPage: React.FC = () => {
 
       const newFormFields: IDynamicInput[] = []
       PRODUCT_FORM_INPUTS_V2.forEach((input) => {
-        if (input.id === 'recipe_id') {
+        if (input.id === IFormProduct.recipe_id) {
           newFormFields.push({
             ...input,
             options: result.map((preOption) => ({
