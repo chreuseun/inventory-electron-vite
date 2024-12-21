@@ -29,15 +29,4 @@ export const RECIPE_FORM_INPUTS: IDynamicInput[] = [
     required: true,
     valueAsNumber: false
   }
-
-  // {
-  //   id: 'is_active',
-  //   label: 'Is Active?',
-  //   type: 'text',
-  //   inputType: 'BOOLEAN',
-  //   required: true,
-  //   valueAsNumber: false,
-  //   minLength: 2,
-  //   maxLength: 45
-  // }
 ]

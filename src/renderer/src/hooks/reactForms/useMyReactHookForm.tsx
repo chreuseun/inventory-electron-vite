@@ -69,7 +69,7 @@ const useMyReactHookForm: React.FC<{
           }
 
           return (
-            <div className="border border-sectBorder" key={input.id}>
+            <div className="border border-sectBorder p-3" key={input.id}>
               Invalid input type: {input.inputType}
             </div>
           )
