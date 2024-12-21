@@ -1,11 +1,11 @@
 import { IDTOProductPayload } from '@renderer/interfaces/dtos/products.dto'
+import { handleError } from '@renderer/utils/api'
 import { showToast } from '@renderer/utils/reactToastify'
 import { executeSQLiteQuery, ISqliteBulkInsertResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
 const INSERT_PRODUCTS = `
     INSERT INTO products (
-        id
         reference_id,
         display_name,
         current_recipe_id,
@@ -15,7 +15,6 @@ const INSERT_PRODUCTS = `
         alert_threshold,
         created_by
     ) VALUES (
-        @id
         @reference_id,
         @display_name,
         @current_recipe_id,
@@ -54,32 +53,18 @@ const useCreateProducts: IUseCreateProducts = (args) => {
       const { error: sqlError, result } = response
 
       if (sqlError) {
-        if (args?.onError) {
-          args.onError(`${sqlError}`)
-          showToast({
-            message: `Create Products: ${sqlError}`,
-            type: 'error'
-          })
-        }
-      } else {
-        if (args?.onCompleted) {
-          args?.onCompleted(response)
-
-          showToast({
-            message: `New Products Added: ${result.insertedCount}`,
-            type: 'success'
-          })
-
-          result.insertedCount
-        }
+        throw new Error(sqlError)
       }
+
+      showToast({
+        message: `New Products Added: ${result.insertedCount}`,
+        type: 'success'
+      })
+      args?.onCompleted && args?.onCompleted(response)
     } catch (errMsg) {
       if (args?.onError) {
-        args.onError(`${errMsg}`)
-        showToast({
-          message: `Create Products: ${errMsg}`,
-          type: 'error'
-        })
+        handleError(`${errMsg}`)
+        args?.onError && args?.onError(`${errMsg}`)
       }
     }
 

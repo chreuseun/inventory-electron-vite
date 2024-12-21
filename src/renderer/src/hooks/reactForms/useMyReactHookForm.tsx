@@ -7,18 +7,25 @@ import { Controller, FieldValues, useForm } from 'react-hook-form'
 const useMyReactHookForm: React.FC<{
   inputsConfig: IDynamicInput[]
   onHandleSubmit: (data: FieldValues) => void
-}> = ({ inputsConfig, onHandleSubmit }) => {
+  isFormReset?: boolean
+}> = ({ inputsConfig, onHandleSubmit, isFormReset = true }) => {
   const { control, handleSubmit, reset } = useForm()
   const [remount, setRemount] = useState(false)
 
   const onSubmitHandler = handleSubmit((data) => {
     onHandleSubmit(data)
-    reset()
+    isFormReset ? reset() : null
     setRemount(true)
     setTimeout(() => {
       setRemount(false)
     }, 100)
   })
+
+  const onEnterKey: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+    if (event.key === 'Enter') {
+      onSubmitHandler()
+    }
+  }
 
   if (remount) {
     return null
@@ -26,7 +33,10 @@ const useMyReactHookForm: React.FC<{
 
   return (
     <React.Fragment>
-      <div className="border-b-sectBorder border-b flex flex-col overflow-auto gap-x-2 pb-2 shrink-0">
+      <div
+        className="border-b-sectBorder border-b flex flex-col overflow-auto gap-x-2 pb-2 shrink-0"
+        onKeyDown={onEnterKey}
+      >
         {inputsConfig.map((input) => {
           if (input.inputType === 'SELECT_MULTIPLE') {
             return (
