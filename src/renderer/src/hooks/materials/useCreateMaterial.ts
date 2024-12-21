@@ -100,8 +100,6 @@ const useCreateMaterial: IUseCreateMaterialsList = ({ onCompleted, onError }) =>
           }
         ]
 
-    console.log('--- MATERIALS: ', params)
-
     const response = (await executeSQLiteQuery({
       sql: INSERT_ONE_MATERIAL,
       action: 'bulkUpsert',

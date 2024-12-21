@@ -40,6 +40,14 @@ const PRODUCT_FORM_INPUTS_V2: IDynamicInput[] = [
     valueAsNumber: true,
     min: 0,
     max: 1000000000
+  },
+  {
+    id: 'recipe_id',
+    label: 'Recipe',
+    type: 'text',
+    inputType: 'SELECT_ONE',
+    required: true,
+    valueAsNumber: false
   }
 ]
 

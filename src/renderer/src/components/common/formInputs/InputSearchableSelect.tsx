@@ -150,6 +150,8 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
       updatedValues = {
         [value]: { value, label, quantity }
       }
+
+      setSelectedOpts(updatedValues)
     }
 
     onChangeHandler(updatedValues)
@@ -189,10 +191,17 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
   return (
     <div className={`border border-sectBorder ${className} p-2 shadow rounded-sm mb-2`}>
       {label ? <label className="text-light text-xs block">{label}</label> : null}
+      <input
+        type="text"
+        placeholder="Search..."
+        className="bg-light text-dark px-2 rounded-xs mb-2 rounded-sm text-md my-2"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       <div className="max-h-28 mb-1 text-light flex flex-col flex-wrap overflow-auto">
         {Object.values(selectedOpts).map((selectedMaterial) => (
           <span
-            className="px-1 py-1 border-sectBorder text-px9"
+            className={`px-1 py-1 border-sectBorder  ${multiple ? 'text-px9' : 'text-2xl'}`}
             key={selectedMaterial.value}
             onClick={() => {
               onDelete(selectedMaterial)
@@ -206,13 +215,7 @@ const InputSearchableSelect: React.FC<ISelectInput> = ({
           </span>
         ))}
       </div>
-      <input
-        type="text"
-        placeholder="Search..."
-        className="bg-light text-dark px-2 rounded-xs mb-2 rounded-sm text-sm"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+
       <div className="bg-light border rounded-sm max-h-40 overflow-y-auto p-2 flex flex-wrap">
         {!filteredOptions.length ? <div>No materials found</div> : null}
         {filteredOptions.map((option) => (

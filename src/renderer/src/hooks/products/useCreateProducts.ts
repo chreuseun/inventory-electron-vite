@@ -63,8 +63,7 @@ const useCreateProducts: IUseCreateProducts = (args) => {
       args?.onCompleted && args?.onCompleted(response)
     } catch (errMsg) {
       if (args?.onError) {
-        handleError(`${errMsg}`)
-        args?.onError && args?.onError(`${errMsg}`)
+        handleError(`${errMsg}`, args.onError)
       }
     }
 

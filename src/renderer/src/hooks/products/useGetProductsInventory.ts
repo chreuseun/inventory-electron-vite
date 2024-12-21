@@ -1,4 +1,5 @@
 import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dto'
+import { handleError } from '@renderer/utils/api'
 import { executeSQLiteQuery, ISqliteListResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
@@ -54,11 +55,6 @@ const useGetProductsInventory: IUseGetProductsInventory = (args) => {
       args.onCompleted(data)
     }
   }
-  const handleError: (errMsg: string) => void = (errMsg) => {
-    if (args?.onError) {
-      args.onError(errMsg)
-    }
-  }
 
   const runGetProductsInventory: IRunGetProductsInventory = async () => {
     setFetchingProducts(true)
@@ -72,12 +68,12 @@ const useGetProductsInventory: IUseGetProductsInventory = (args) => {
 
       const { error: sqlError } = results
       if (sqlError) {
-        handleError(sqlError)
+        throw new Error(sqlError)
       } else {
         handleCompleted(results)
       }
     } catch (error) {
-      handleError(`${error}`)
+      handleError(`${error}`, args?.onError)
     }
 
     setFetchingProducts(false)

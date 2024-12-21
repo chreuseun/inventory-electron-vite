@@ -1,3 +1,4 @@
+import { handleError } from '@renderer/utils/api'
 import { showToast } from '@renderer/utils/reactToastify'
 import {
   executeSQLiteQuery,
@@ -56,17 +57,6 @@ type IUseCreateRecipe = (args?: {
 const useCreateRecipe: IUseCreateRecipe = (args = {}) => {
   const [creatingRecipe, setCreatingRecipe] = useState(false)
 
-  const handleError: (errMsg: string) => void = (errMsg) => {
-    showToast({
-      message: `useCreateRecipe: ${errMsg}`,
-      type: 'error'
-    })
-
-    if (args?.onError) {
-      args.onError(errMsg)
-    }
-  }
-
   const runCreateRecipe: IRunCreateRecipe = async ({ name, description, recipeItems }) => {
     setCreatingRecipe(true)
 
@@ -122,7 +112,7 @@ const useCreateRecipe: IUseCreateRecipe = (args = {}) => {
         args.onCompleted(resultRecipeItems)
       }
     } catch (error) {
-      handleError(`${error}`)
+      handleError(`${error}`, args.onError)
     }
 
     setCreatingRecipe(false)

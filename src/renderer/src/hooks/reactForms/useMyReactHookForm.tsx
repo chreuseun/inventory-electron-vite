@@ -21,24 +21,17 @@ const useMyReactHookForm: React.FC<{
     }, 100)
   })
 
-  const onEnterKey: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (event.key === 'Enter') {
-      onSubmitHandler()
-    }
-  }
-
   if (remount) {
     return null
   }
 
   return (
     <React.Fragment>
-      <div
-        className="border-b-sectBorder border-b flex flex-col overflow-auto gap-x-2 pb-2 shrink-0"
-        onKeyDown={onEnterKey}
-      >
+      <div className="border-b-sectBorder border-b flex flex-col overflow-auto gap-x-2 pb-2 shrink-0">
         {inputsConfig.map((input) => {
-          if (input.inputType === 'SELECT_MULTIPLE') {
+          if (input.inputType === 'SELECT_MULTIPLE' || input.inputType === 'SELECT_ONE') {
+            const multiple = input.inputType === 'SELECT_MULTIPLE' ? true : false
+
             return (
               <Controller
                 key={input.id}
@@ -56,13 +49,13 @@ const useMyReactHookForm: React.FC<{
                         className="text-dark"
                         options={input?.options || []}
                         label={`${input.label}`}
-                        multiple={true}
+                        multiple={multiple}
                         onChange={(selectedMaterialIDs) => {
                           onChange(
                             Object.keys(selectedMaterialIDs).length ? selectedMaterialIDs : null
                           )
                         }}
-                        isQuantityIncluded
+                        isQuantityIncluded={multiple}
                         errorMessage={error?.message || null}
                       />
                     </>

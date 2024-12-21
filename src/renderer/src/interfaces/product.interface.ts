@@ -3,4 +3,10 @@ export interface IProductFormData {
   description: string
   display_name: string
   shelf_quantity: string
+  recipe_id: {
+    [recipeID: string]: {
+      label: string
+      value: number
+    }
+  }
 }

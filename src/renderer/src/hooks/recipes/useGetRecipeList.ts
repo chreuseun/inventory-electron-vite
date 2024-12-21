@@ -46,7 +46,7 @@ const useGetRecipeList: IUseGetRecipeList = (props) => {
 
       props?.onCompleted && props?.onCompleted(responseRecipeList)
     } catch (errMsg) {
-      handleError(`${errMsg}`)
+      handleError(`${errMsg}`, props?.onError)
     }
 
     setRecipeList(false)
