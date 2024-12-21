@@ -48,7 +48,7 @@ const ProductsMainPage: React.FC = () => {
             }}
           />
         </div>
-        <TableListTemplate
+        <TableListTemplate<IDTOProductPotentialStock>
           listTitle="Products"
           columns={['Product', 'Stock', 'Shelf Stock']}
           data={products}

@@ -64,6 +64,8 @@ const useMyReactHookForm: React.FC<{
             return <InputTextInput key={input.id} control={control} input={input} />
           } else if (input.inputType === 'BOOLEAN') {
             return <InputTextInput key={input.id} control={control} input={input} />
+          } else if (input.inputType === 'NUMBER') {
+            return <InputTextInput key={input.id} control={control} input={input} />
           }
 
           return (
