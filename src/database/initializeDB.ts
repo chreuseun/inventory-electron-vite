@@ -1,4 +1,6 @@
 import sqliteDatabase, { Database } from 'better-sqlite3'
+import { app } from 'electron'
+import path from 'path'
 
 console.log('*** INITIALIZED_DB: MOUNTED')
 const dbOPtions: sqliteDatabase.Options = {
@@ -6,7 +8,8 @@ const dbOPtions: sqliteDatabase.Options = {
   //   console.log('--- SQLITE_3 VERBOSE: ', message)
   // }
 }
-const db: Database = new sqliteDatabase(`inventory.db`, dbOPtions)
+const DB_PATH = path.join(app.getPath('userData'), 'inventory.db')
+const db: Database = new sqliteDatabase(DB_PATH, dbOPtions)
 
 console.log(
   '*** SQLite3_DB Created: ',
