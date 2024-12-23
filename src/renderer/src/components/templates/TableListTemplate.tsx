@@ -8,6 +8,7 @@ interface ITableListTemplateProps<T> {
   data: T[]
   rowConfig: (rowItem: T) => IRowConfigs
   children?: React.ReactNode
+  rowUniqueKey?: string
 }
 
 const TableListTemplate = <T,>({
@@ -15,7 +16,8 @@ const TableListTemplate = <T,>({
   columns,
   data,
   rowConfig,
-  children
+  children,
+  rowUniqueKey
 }: ITableListTemplateProps<T>): React.ReactElement => {
   const renderColumn: (arg: { name: string }) => JSX.Element = ({ name }) => {
     return (
@@ -46,8 +48,10 @@ const TableListTemplate = <T,>({
               {data.map((rowRecord) => {
                 const row = rowRecord as unknown as { id: string }
 
-                if (row?.id) {
-                  return <TableRowTemplate key={row?.id} row={rowConfig(rowRecord)} />
+                const itemKey = rowUniqueKey ? row?.[rowUniqueKey] : row?.id
+
+                if (itemKey) {
+                  return <TableRowTemplate key={itemKey} row={rowConfig(rowRecord)} />
                 }
 
                 return null
