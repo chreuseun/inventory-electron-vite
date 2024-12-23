@@ -1,13 +1,15 @@
-import { MyDynamicFormInput } from '@renderer/interfaces/form.interface'
+import { IDynamicInput } from '@renderer/interfaces/form.interface'
 
-export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
+export const MATERIAL_FORM_INPUTS: IDynamicInput[] = [
   {
     label: 'Name',
     id: 'display_name',
     type: 'TEXT',
     required: true,
     minLength: 1,
-    maxLength: 30
+    maxLength: 30,
+    valueAsNumber: false,
+    inputType: 'TEXT'
   },
   {
     label: 'Unit',
@@ -15,7 +17,9 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     type: 'TEXT',
     required: true,
     minLength: 1,
-    maxLength: 30
+    maxLength: 30,
+    valueAsNumber: false,
+    inputType: 'TEXT'
   },
   {
     label: 'Format',
@@ -23,7 +27,9 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     type: 'TEXT',
     required: true,
     minLength: 1,
-    maxLength: 30
+    maxLength: 30,
+    valueAsNumber: false,
+    inputType: 'TEXT'
   },
   {
     label: 'Price',
@@ -34,7 +40,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     maxLength: 30,
     max: 999999999,
     min: -999999999,
-    valueAsNumber: true
+    valueAsNumber: true,
+    inputType: 'NUMBER'
   },
   {
     label: 'Alert Threshold',
@@ -45,7 +52,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     maxLength: 30,
     max: 999999999,
     min: -999999999,
-    valueAsNumber: true
+    valueAsNumber: true,
+    inputType: 'NUMBER'
   },
   {
     label: 'Current Stock Quantity',
@@ -56,7 +64,8 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     maxLength: 30,
     max: 999999999,
     min: -999999999,
-    valueAsNumber: true
+    valueAsNumber: true,
+    inputType: 'NUMBER'
   },
   {
     label: 'Stock Base Quantity',
@@ -67,6 +76,7 @@ export const MATERIAL_FORM_INPUTS: MyDynamicFormInput[] = [
     maxLength: 30,
     max: 999999999,
     min: -999999999,
-    valueAsNumber: true
+    valueAsNumber: true,
+    inputType: 'NUMBER'
   }
 ]
