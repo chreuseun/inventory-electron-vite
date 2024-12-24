@@ -21,8 +21,13 @@ const SIDEBAR_ITEMS = {
     icon: RecipesIcon
   },
   REPORTS: {
-    label: 'Reports',
+    label: 'Reports - Shelf',
     path: APPLICATION_ROUTES.MANAGE_REPORTS.path,
+    icon: ReportsIcon
+  },
+  REPORTS_STOCK: {
+    label: 'Reports - Stocks',
+    path: APPLICATION_ROUTES.MANAGE_STOCKS_REPORTS.path,
     icon: ReportsIcon
   }
 }
@@ -31,7 +36,8 @@ const SIDEBAR_DISPLAY_ARRAY = [
   SIDEBAR_ITEMS.MANAGE_MATERIALS,
   SIDEBAR_ITEMS.MANAGE_PRODUCTS,
   SIDEBAR_ITEMS.MANAGE_RECIPES,
-  SIDEBAR_ITEMS.REPORTS
+  SIDEBAR_ITEMS.REPORTS,
+  SIDEBAR_ITEMS.REPORTS_STOCK
 ]
 
 export { SIDEBAR_ITEMS, SIDEBAR_DISPLAY_ARRAY }

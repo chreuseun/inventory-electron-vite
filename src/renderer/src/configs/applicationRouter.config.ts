@@ -22,6 +22,9 @@ const APPLICATION_ROUTES = {
   },
   RECIPE_FORM: {
     path: '/recipe-form'
+  },
+  MANAGE_STOCKS_REPORTS: {
+    path: '/manage-stocks-reports'
   }
 }
 

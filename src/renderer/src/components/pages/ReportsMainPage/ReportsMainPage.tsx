@@ -73,14 +73,15 @@ const ReportsMainPage: React.FC = () => {
       loading={fetchingShelfStockRecords}
     >
       <div className="p-2 flex-grow flex flex-col overflow-auto">
-        <ReportShelfFilterMenu onHandleSubmit={onHandleSubmit} />
         <TableListTemplate<IDTOShelfStockRecord>
           listTitle="Shelf Stock Transactions"
           columns={columns}
           data={shelfStockRecords}
           rowConfig={generateShelfReportRows}
           rowUniqueKey={'shelf_transaction_ID'}
-        />
+        >
+          <ReportShelfFilterMenu onHandleSubmit={onHandleSubmit} />
+        </TableListTemplate>
       </div>
     </MainAppTemplate>
   )
