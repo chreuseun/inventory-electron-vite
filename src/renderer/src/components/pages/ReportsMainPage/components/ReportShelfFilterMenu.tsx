@@ -7,7 +7,7 @@ import { useMyReactHookForm as MyReactHookForm } from '@renderer/hooks/reactForm
 const INPUT_CONFIGS: IDynamicInput[] = [
   {
     label: 'Product',
-    id: 'product_id',
+    id: 'product',
     required: false,
     inputType: 'TEXT',
     type: 'text',
@@ -15,7 +15,7 @@ const INPUT_CONFIGS: IDynamicInput[] = [
   },
   {
     label: 'Creation Date',
-    id: 'ShelfDateRange',
+    id: 'shelfDateRange',
     inputType: 'DATE_RANGE',
     type: 'date',
     valueAsNumber: false,

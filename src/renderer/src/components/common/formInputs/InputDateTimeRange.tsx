@@ -32,10 +32,12 @@ const InputDateTimeRange: React.FC<InputDateTimeRangeProps> = ({
     try {
       if (dateValue === '') {
         setDateRangeValues((prev) => {
-          const newPrev = { ...prev }
+          const newPrev = { ...prev, [dateType]: null }
+
+          onChange(newPrev)
+
           return {
-            ...newPrev,
-            [dateType]: null
+            ...newPrev
           }
         })
       } else {

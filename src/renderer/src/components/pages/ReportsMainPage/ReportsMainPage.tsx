@@ -6,6 +6,9 @@ import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
 import { formatDate } from '@renderer/utils/dateTime'
 import { useEffect, useState } from 'react'
 import { ReportShelfFilterMenu } from './components'
+import { IDateRangeValue } from '@renderer/interfaces/form.interface'
+import { ShelfTransactionTypes } from '@renderer/interfaces/inventory.interface'
+import { FieldValues } from 'react-hook-form'
 
 const generateShelfReportRows: (shelfStockRecord: IDTOShelfStockRecord) => IRowConfigs = (
   shelfStockRecord
@@ -47,6 +50,22 @@ const ReportsMainPage: React.FC = () => {
     })
   }, [])
 
+  const onHandleSubmit: (formData: FieldValues) => void = (formData) => {
+    const { product, shelfDateRange, transactionType } = formData as {
+      product: string
+      shelfDateRange: string | IDateRangeValue
+      transactionType: ShelfTransactionTypes | null
+    }
+    const { start, end } = shelfDateRange as IDateRangeValue
+
+    runGetShelfStockRecordsByCriteria({
+      productName: product || null,
+      startDateRange: start || null,
+      endDateRange: end || null,
+      transactionType: transactionType || null
+    })
+  }
+
   return (
     <MainAppTemplate
       headerText="Reports"
@@ -54,11 +73,7 @@ const ReportsMainPage: React.FC = () => {
       loading={fetchingShelfStockRecords}
     >
       <div className="p-2 flex-grow flex flex-col overflow-auto">
-        <ReportShelfFilterMenu
-          onHandleSubmit={(formData) => {
-            console.log('-- SEARCH FORM DATA: ', formData)
-          }}
-        />
+        <ReportShelfFilterMenu onHandleSubmit={onHandleSubmit} />
         <TableListTemplate<IDTOShelfStockRecord>
           listTitle="Shelf Stock Transactions"
           columns={columns}

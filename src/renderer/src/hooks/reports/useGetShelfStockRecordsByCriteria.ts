@@ -1,7 +1,6 @@
 import { ShelfTransactionTypes } from '@renderer/interfaces/inventory.interface'
 import { IDTOShelfStockRecord } from '@renderer/interfaces/reports.dto'
 import { handleError } from '@renderer/utils/api'
-import { showToast } from '@renderer/utils/reactToastify'
 import { executeSQLiteQuery, ISqliteListResponse } from '@renderer/utils/sqlite'
 import { useState } from 'react'
 
@@ -21,8 +20,9 @@ FROM shelf_stock_transactions as shTXN
 LEFT JOIN  products as pd on pd.id= shTXN.product_id
 
 WHERE  
-    ( @productName  IS NULL OR pd.display_name LIKE '%' || @productName || '%')  
+    ( @productName IS NULL OR pd.display_name LIKE '%' || @productName || '%')  
     AND ( @transactionType IS NULL OR shTXN.transaction_type LIKE '%' || @transactionType || '%')
+    AND ( @startDateRange IS NULL OR @endDateRange IS NULL OR shTXN.created_at BETWEEN @startDateRange AND @endDateRange )
 
 ORDER BY shTXN.created_at DESC
 `
