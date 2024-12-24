@@ -13,7 +13,7 @@ const InputTextInput: React.FC<{
       name={input.id}
       control={control}
       defaultValue=""
-      rules={{ required: `${input.label} is required` }}
+      rules={{ required: input.required ? `${input.label} is required` : false }}
       render={({ field, fieldState: { error } }) => {
         const isError = !!error?.message
         const onFieldChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {

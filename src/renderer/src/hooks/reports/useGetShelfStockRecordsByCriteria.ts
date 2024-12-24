@@ -76,11 +76,6 @@ const useGetShelfStockRecordsByCriteria: IUseGetShelfSockRecordsByCriteria = (ar
         throw new Error(shelfStockRecordsList.error)
       }
 
-      showToast({
-        type: 'success',
-        message: `Successfully fetched ${shelfStockRecordsList.result.length} Shelf Stock Record(s)`
-      })
-
       args.onCompleted && args?.onCompleted(shelfStockRecordsList)
     } catch (error) {
       handleError(`${error}`, args?.onError)

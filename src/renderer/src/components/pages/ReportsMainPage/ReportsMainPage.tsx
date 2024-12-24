@@ -1,9 +1,11 @@
-import { MyButton, MyTextInput } from '@renderer/components/common'
 import { MainAppTemplate, TableListTemplate } from '@renderer/components/templates'
 import { useGetShelfStockRecordsByCriteria } from '@renderer/hooks/reports'
+import { IDateFormats } from '@renderer/interfaces/dateFormat.interface'
 import { IDTOShelfStockRecord } from '@renderer/interfaces/reports.dto'
 import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
+import { formatDate } from '@renderer/utils/dateTime'
 import { useEffect, useState } from 'react'
+import { ReportShelfFilterMenu } from './components'
 
 const generateShelfReportRows: (shelfStockRecord: IDTOShelfStockRecord) => IRowConfigs = (
   shelfStockRecord
@@ -16,7 +18,13 @@ const generateShelfReportRows: (shelfStockRecord: IDTOShelfStockRecord) => IRowC
     created_at: createdAt
   } = shelfStockRecord
 
-  return [productName, `${quantity}`, transactionType, reason, createdAt]
+  return [
+    productName,
+    `${quantity}`,
+    transactionType,
+    reason,
+    formatDate(createdAt, IDateFormats.YYYYMMDDhhmmss)
+  ]
 }
 
 const columns = ['Product', 'Qty.', 'type', 'Reason', 'Date']
@@ -46,12 +54,11 @@ const ReportsMainPage: React.FC = () => {
       loading={fetchingShelfStockRecords}
     >
       <div className="p-2 flex-grow flex flex-col overflow-auto">
-        <div className="mb-2 flex justify-between">
-          <div className="flex flex-row">
-            <MyTextInput onChange={() => {}} placeholder="Product Name" />
-            <MyButton label={`Generate Report`} className="ml-2" onClick={() => {}} />
-          </div>
-        </div>
+        <ReportShelfFilterMenu
+          onHandleSubmit={(formData) => {
+            console.log('-- SEARCH FORM DATA: ', formData)
+          }}
+        />
         <TableListTemplate<IDTOShelfStockRecord>
           listTitle="Shelf Stock Transactions"
           columns={columns}

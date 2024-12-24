@@ -26,6 +26,8 @@ export type CustomFormInputType =
   | 'BOOLEAN'
   | 'SELECT_MULTIPLE'
   | 'SELECT_ONE'
+  | 'DROPDOWN_SELECT'
+  | 'DATE_RANGE'
 
 export interface IDynamicInput {
   id: string
@@ -45,4 +47,9 @@ export interface IOption {
   value: string
   label: string
   quantity?: number
+}
+
+export type IDateRangeValue = {
+  end: string | null
+  start: string | null
 }
