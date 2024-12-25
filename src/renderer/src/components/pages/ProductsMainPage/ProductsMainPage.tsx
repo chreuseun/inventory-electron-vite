@@ -9,16 +9,20 @@ import { IDTOProductPotentialStock } from '@renderer/interfaces/dtos/products.dt
 import ProductPotentialInventoryView from './components/ProductPotentialInventoryView'
 import ProductShelfInventoryUpdateView from './components/ProductShelfInventoryUpdateView'
 import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
+import { IRowExceptionKeys } from '@renderer/components/templates/components/TableListTemplate/TableRowTemplate'
 
 const generateProductInventoryRowConfig: (product: IDTOProductPotentialStock) => IRowConfigs = (
   product
 ) => {
-  const { display_name } = product
+  const { display_name, alert_threshold, potential_stock } = product
 
   return [
     display_name,
     <ProductPotentialInventoryView key={'potential_stock'} product={product} />,
-    <ProductShelfInventoryUpdateView key={'shelf_stock'} product={product} />
+    <ProductShelfInventoryUpdateView key={'shelf_stock'} product={product} />,
+
+    // Make the row red bg if the potential stock is less than the alert threshold
+    alert_threshold >= potential_stock ? IRowExceptionKeys.ALERT_ROW : ''
   ]
 }
 

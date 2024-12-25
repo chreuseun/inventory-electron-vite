@@ -14,15 +14,18 @@ SELECT
 	shTXN.transaction_type,
 	shTXN.reason,
 	shTXN.intention,
-	STRFTIME('%Y-%m-%d %H:%M:%S ', DATETIME( shTXN.created_at, '+8 hours' )) as created_at
-	
+  STRFTIME('%Y-%m-%d %H:%M:%S ', DATETIME( shTXN.created_at, '+8 hours' )) as created_at
+
 FROM shelf_stock_transactions as shTXN
 LEFT JOIN  products as pd on pd.id= shTXN.product_id
 
 WHERE  
     ( @productName IS NULL OR pd.display_name LIKE '%' || @productName || '%')  
     AND ( @transactionType IS NULL OR shTXN.transaction_type LIKE '%' || @transactionType || '%')
-    AND ( @startDateRange IS NULL OR @endDateRange IS NULL OR shTXN.created_at BETWEEN @startDateRange AND @endDateRange )
+    AND ( @startDateRange IS NULL OR @endDateRange IS NULL OR 
+      	STRFTIME('%Y-%m-%d %H:%M:%S ', DATETIME( shTXN.created_at, '+8 hours' )) >= @startDateRange
+        AND STRFTIME('%Y-%m-%d %H:%M:%S ', DATETIME( shTXN.created_at, '+8 hours' ))  <= @endDateRange
+    )
 
 ORDER BY shTXN.created_at DESC
 `

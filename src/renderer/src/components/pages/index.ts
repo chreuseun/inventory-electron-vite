@@ -8,15 +8,16 @@ import ReportsMainPage from './ReportsMainPage'
 import MaterialFormPage from './MaterialFormPage'
 import ProductFormPage from './ProductFormPage'
 import RecipeFormPage from './RecipeFormPage'
+import InventoryReportsMainPage from './InventoryReportsMainPage'
 
 export {
   LoginPage,
-  //
   MaterialsMainPage,
   ProductsMainPage,
   RecipesMainPage,
   ReportsMainPage,
   MaterialFormPage,
   ProductFormPage,
-  RecipeFormPage
+  RecipeFormPage,
+  InventoryReportsMainPage
 }

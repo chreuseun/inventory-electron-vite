@@ -68,7 +68,7 @@ const ReportsMainPage: React.FC = () => {
 
   return (
     <MainAppTemplate
-      headerText="Reports"
+      headerText="Shelf Reports"
       className="flex flex-col"
       loading={fetchingShelfStockRecords}
     >

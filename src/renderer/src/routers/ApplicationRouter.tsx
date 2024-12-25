@@ -9,7 +9,8 @@ import {
   RecipesMainPage,
   ReportsMainPage,
   ProductFormPage,
-  RecipeFormPage
+  RecipeFormPage,
+  InventoryReportsMainPage
 } from '@renderer/components/pages'
 import { MySidebar } from '@renderer/components/common'
 import { APPLICATION_ROUTES } from '@renderer/configs/applicationRouter.config'
@@ -27,6 +28,10 @@ const PublicRouter: React.FC = () => {
           <Route path={APPLICATION_ROUTES.MATERIAL_FORM.path} element={<MaterialFormPage />} />
           <Route path={APPLICATION_ROUTES.PRODUCT_FORM.path} element={<ProductFormPage />} />
           <Route path={APPLICATION_ROUTES.RECIPE_FORM.path} element={<RecipeFormPage />} />
+          <Route
+            path={APPLICATION_ROUTES.MANAGE_STOCKS_REPORTS.path}
+            element={<InventoryReportsMainPage />}
+          />
           <Route
             path="*"
             element={<Navigate to={APPLICATION_ROUTES.MANAGE_MATERIALS.path} replace />}

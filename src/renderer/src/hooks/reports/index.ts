@@ -1,3 +1,4 @@
 import useGetShelfStockRecordsByCriteria from './useGetShelfStockRecordsByCriteria'
+import useGetInventoryStockRecordsByCriteria from './useGetStockRecordsByCriteria'
 
-export { useGetShelfStockRecordsByCriteria }
+export { useGetShelfStockRecordsByCriteria, useGetInventoryStockRecordsByCriteria }

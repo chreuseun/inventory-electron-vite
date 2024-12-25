@@ -1,6 +1,7 @@
 import React from 'react'
 import TableRowTemplate from './components/TableListTemplate/TableRowTemplate'
 import { IRowConfigs } from '@renderer/interfaces/tableTemplate.interface'
+import { MyLoadingModal } from '../common'
 
 interface ITableListTemplateProps<T> {
   listTitle?: string
@@ -9,6 +10,7 @@ interface ITableListTemplateProps<T> {
   rowConfig: (rowItem: T) => IRowConfigs
   children?: React.ReactNode
   rowUniqueKey?: string
+  listLoading?: boolean
 }
 
 const TableListTemplate = <T,>({
@@ -17,7 +19,8 @@ const TableListTemplate = <T,>({
   data,
   rowConfig,
   children,
-  rowUniqueKey
+  rowUniqueKey,
+  listLoading = false
 }: ITableListTemplateProps<T>): React.ReactElement => {
   const renderColumn: (arg: { name: string }) => JSX.Element = ({ name }) => {
     return (
@@ -31,6 +34,7 @@ const TableListTemplate = <T,>({
 
   return (
     <React.Fragment>
+      <MyLoadingModal show={listLoading} />
       {listTitle ? <div className="border-b-sectBorder border-b-2 mb-2">{listTitle}</div> : null}
       {children}
       <div className="border border-sectBorder p-4 rounded-xs flex-grow flex flex-col overflow-auto">
